@@ -7,7 +7,8 @@ import App from './App'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    {/* როუტინგის ჩართვა - მისამართის მიხედვით გვერდის შეცვლა */}
+    <BrowserRouter> 
       <App />
     </BrowserRouter>
   </StrictMode>

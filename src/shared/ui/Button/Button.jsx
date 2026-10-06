@@ -12,8 +12,9 @@ export default function Button({
     <button
       type={type}
       className={`button button--${variant} ${loading ? 'button--loading' : ''}`}
+      // ლოდინისას გათიშულია, რომ კიდევ არ გაიგზავნოს, პროცესი მიმდინარეობს
       disabled={disabled || loading}
-      aria-busy={loading}
+      aria-busy={loading} 
       {...rest}
     >
       <span className="button__text">{children}</span>

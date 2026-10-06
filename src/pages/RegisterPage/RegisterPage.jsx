@@ -45,10 +45,16 @@ export default function RegisterPage() {
           />
         </FormField>
 
-        <FormField id="password" label="პაროლი" error={errors.password?.message}>
+        <FormField
+          id="password"
+          label="პაროლი"
+          hint="პაროლი უნდა შეიცავდეს მინიმუმ 8 სიმბოლოს, მათ შორის 1 ასოს და 1 ციფრს"
+          error={errors.password?.message}
+        >
           <PasswordInput
             id="password"
             autoComplete="new-password"
+            aria-describedby="password-hint"
             error={!!errors.password}
             {...register('password')}
           />

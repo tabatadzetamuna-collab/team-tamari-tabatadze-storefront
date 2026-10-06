@@ -1,0 +1,7 @@
+/* პაროლის ინფუთველში დაწკაპებისას შეტყობინება გამოჩნდება */
+.form-field__hint {
+  display: none;
+}
+.form-field:focus-within .form-field__hint {
+  display: block;
+}
