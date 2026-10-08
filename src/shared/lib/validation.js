@@ -30,3 +30,17 @@ export const registerSchema = z
   })
 
 export const forgotSchema = z.object({ email })
+
+export const codeSchema = z.object({
+  code: z.string().trim().regex(/^\d{6}$/, 'კოდი უნდა შედგებოდეს 6 ციფრისგან'),
+})
+
+export const newPasswordSchema = z
+  .object({
+    password: newPassword,
+    confirmPassword: z.string().min(1, 'გაიმეორე პაროლი'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'პაროლები არ ემთხვევა',
+    path: ['confirmPassword'],
+  })

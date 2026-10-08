@@ -1,15 +1,17 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import SessionProvider from './session/SessionProvider'
 import './styles/tokens.css'
 import './styles/global.css'
 import App from './App'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* როუტინგის ჩართვა - მისამართის მიხედვით გვერდის შეცვლა */}
-    <BrowserRouter> 
-      <App />
+    <BrowserRouter>
+      <SessionProvider>
+        <App />
+      </SessionProvider>
     </BrowserRouter>
   </StrictMode>
 )
