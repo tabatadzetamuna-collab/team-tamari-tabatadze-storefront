@@ -1,0 +1,35 @@
+:root {
+  /* ფერები */
+  --color-bg: #ffffff;
+  --color-surface: #f7f7f7;
+  --color-text: #1a1a1a;
+  --color-text-muted: #6b6b6b;
+  --color-border: #d4d4d4;
+  --color-accent: #1a1a1a;
+  --color-on-accent: #ffffff;
+  --color-error: #c9342e;
+  --color-error-bg: #fdecec;
+  --color-success: #1e7d3a;
+  --color-success-bg: #e8f5ec;
+  --color-focus: #2f5fe3;
+
+  /* დაშორებები */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* ზომები */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --control-height: 48px;
+  --form-max-width: 420px;
+
+  /* ტიპოგრაფია */
+  --font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-size-label: 14px;
+  --font-size-body: 16px;
+  --font-size-title: 24px;
+}
