@@ -1,7 +1,6 @@
-import { forwardRef } from 'react'
 import './Input.css'
 
-const Input = forwardRef(function Input({ error = false, className = '', ...rest }, ref) {
+export default function Input({ error = false, className = '', ref, ...rest }) {
   return (
     <input
       ref={ref}
@@ -10,6 +9,4 @@ const Input = forwardRef(function Input({ error = false, className = '', ...rest
       {...rest}
     />
   )
-})
-
-export default Input
+}

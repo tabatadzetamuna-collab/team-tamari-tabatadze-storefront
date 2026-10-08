@@ -1,8 +1,8 @@
-import { forwardRef, useState } from 'react'
+import { useState } from 'react'
 import Input from '../Input/Input'
 import './PasswordInput.css'
 
-const PasswordInput = forwardRef(function PasswordInput(props, ref) {
+export default function PasswordInput({ ref, ...props }) {
   const [visible, setVisible] = useState(false)
 
   return (
@@ -10,7 +10,7 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
       <Input ref={ref} type={visible ? 'text' : 'password'} {...props} />
 
       <button
-        type="button"
+        type="button" 
         className="password-input__toggle"
         onClick={() => setVisible((v) => !v)}
         aria-label={visible ? 'პაროლის დამალვა' : 'პაროლის ჩვენება'}
@@ -20,6 +20,4 @@ const PasswordInput = forwardRef(function PasswordInput(props, ref) {
       </button>
     </div>
   )
-})
-
-export default PasswordInput
+}

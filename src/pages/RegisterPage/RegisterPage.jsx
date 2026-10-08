@@ -54,7 +54,6 @@ export default function RegisterPage() {
           <PasswordInput
             id="password"
             autoComplete="new-password"
-            aria-describedby="password-hint"
             error={!!errors.password}
             {...register('password')}
           />

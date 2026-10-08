@@ -10,7 +10,7 @@ export const newPassword = z
   .string()
   .min(8,'პაროლი უნდა შეიცავდეს მინიმუმ 8 სიმბოლოს')
   .regex(/[A-Za-z]/, 'პაროლი უნდა შეიცავდეს მინიმუმ 1 ასოს')
-  .regex(/\d/, 'პაროლი უნდა შეიცავდეს მინიმუმ 1 ციფრ')
+  .regex(/\d/, 'პაროლი უნდა შეიცავდეს მინიმუმ 1 ციფრს')
 
 export const loginSchema = z.object({
   email,
