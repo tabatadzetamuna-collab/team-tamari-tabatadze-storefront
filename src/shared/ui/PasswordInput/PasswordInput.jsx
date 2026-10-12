@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Input from '../Input/Input'
+import { EyeIcon, EyeOffIcon } from '../icons/icons'
 import './PasswordInput.css'
 
 export default function PasswordInput({ ref, ...props }) {
@@ -16,7 +17,7 @@ export default function PasswordInput({ ref, ...props }) {
         aria-label={visible ? 'პაროლის დამალვა' : 'პაროლის ჩვენება'}
         aria-pressed={visible}
       >
-        {visible ? 'დამალვა' : 'ჩვენება'}
+        {visible ? <EyeIcon /> : <EyeOffIcon />}
       </button>
     </div>
   )

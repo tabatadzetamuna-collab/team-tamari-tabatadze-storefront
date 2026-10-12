@@ -7,6 +7,7 @@ import FormField from '../../shared/ui/FormField/FormField'
 import Input from '../../shared/ui/Input/Input'
 import Button from '../../shared/ui/Button/Button'
 import Alert from '../../shared/ui/Alert/Alert'
+import { MailIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
 import { forgotSchema } from '../../shared/lib/validation'
 import './ForgotPasswordPage.css'
 
@@ -36,29 +37,36 @@ export default function ForgotPasswordPage() {
     <AuthLayout title="პაროლის აღდგენა">
       {sent && (
         <Alert variant="success">
-          თუ ამ ელფოსტაზე ანგარიში არსებობს, გამოგიგზავნეთ ბმული.
         </Alert>
       )}
 
       <form className="forgot-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-        <FormField id="email" label="ელფოსტა" error={errors.email?.message}>
+        <FormField id="email" label="ელფოსტა" hideLabel error={errors.email?.message}>
           <Input
             id="email"
             type="email"
             autoComplete="email"
+            placeholder="შეიყვანე ელფოსტა"
+            icon={<MailIcon />}
             error={!!errors.email}
             {...register('email')}
           />
         </FormField>
 
-        <Button type="submit" loading={isSubmitting}>
-          ბმულის გაგზავნა
-        </Button>
-      </form>
+        <div className="forgot-form__actions">
+          <Link
+            to="/login"
+            className="button button--secondary"
+            aria-label="დაბრუნება შესვლაზე"
+          >
+            დაბრუნება
+          </Link>
 
-      <p className="forgot-form__footer">
-        <Link to="/login">დაბრუნება შესვლაზე</Link>
-      </p>
+          <Button type="submit" loading={isSubmitting}>
+            ბმულის გაგზავნა <ArrowRightIcon />
+          </Button>
+        </div>
+      </form>
     </AuthLayout>
   )
 }

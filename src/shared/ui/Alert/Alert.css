@@ -1,0 +1,20 @@
+.alert {
+  padding: var(--space-12) var(--space-16);
+  border-left: 3px solid currentColor;
+  font-size: var(--font-size-label);
+}
+
+.alert--error {
+  background: var(--color-error-bg);
+  color: var(--color-error);
+}
+
+.alert--success {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.alert--info {
+  background: var(--color-surface);
+  color: var(--color-text);
+}

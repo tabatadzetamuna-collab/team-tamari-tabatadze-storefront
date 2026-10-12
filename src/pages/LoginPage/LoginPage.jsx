@@ -6,6 +6,7 @@ import FormField from '../../shared/ui/FormField/FormField'
 import Input from '../../shared/ui/Input/Input'
 import PasswordInput from '../../shared/ui/PasswordInput/PasswordInput'
 import Button from '../../shared/ui/Button/Button'
+import { MailIcon, LockIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
 import { loginSchema } from '../../shared/lib/validation'
 import './LoginPage.css'
 
@@ -29,22 +30,26 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthLayout title="შესვლა">
+    <AuthLayout title="არსებული მომხმარებელი">
       <form className="login-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-        <FormField id="email" label="ელფოსტა" error={errors.email?.message}>
+        <FormField id="email" label="ელფოსტა" hideLabel error={errors.email?.message}>
           <Input
             id="email"
             type="email"
             autoComplete="email"
+            placeholder="შეიყვანე ელფოსტა"
+            icon={<MailIcon />}
             error={!!errors.email}
             {...register('email')}
           />
         </FormField>
 
-        <FormField id="password" label="პაროლი" error={errors.password?.message}>
+        <FormField id="password" label="პაროლი" hideLabel error={errors.password?.message}>
           <PasswordInput
             id="password"
             autoComplete="current-password"
+            placeholder="შეიყვანე პაროლი"
+            icon={<LockIcon />}
             error={!!errors.password}
             {...register('password')}
           />
@@ -55,7 +60,7 @@ export default function LoginPage() {
         </Link>
 
         <Button type="submit" loading={isSubmitting}>
-          შესვლა
+          შესვლა <ArrowRightIcon />
         </Button>
       </form>
 

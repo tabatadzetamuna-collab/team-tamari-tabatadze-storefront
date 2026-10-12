@@ -1,0 +1,8 @@
+.register-form__footer {
+  font-size: var(--font-size-label);
+  color: var(--color-on-dark-muted);
+}
+
+.register-form__footer a {
+  font-weight: var(--font-weight-bold);
+}
