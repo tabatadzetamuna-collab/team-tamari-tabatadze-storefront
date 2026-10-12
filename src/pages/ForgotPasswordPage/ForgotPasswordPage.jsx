@@ -65,8 +65,8 @@ export default function ForgotPasswordPage() {
         </>
       )}
 
-      {step !== 'done' && (
-        <p className="forgot-page__footer">
+      {(step === 'verify' || step === 'password') && (
+        <p className="forgot-form__footer">
           <Link to="/login">დაბრუნება შესვლაზე</Link>
         </p>
       )}

@@ -5,21 +5,19 @@
 }
 
 .form-field__label {
-  font-size: var(--font-size-label);
-  font-weight: 500;
-  color: var(--color-text);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--field-muted, var(--color-text-muted));
 }
 
-/* მინიშნება — ყოველთვის ჩანს, ნაცრისფრად */
+/* მინიშნება — ყოველთვის ჩანს */
 .form-field__hint {
-  margin: 0;
-  font-size: var(--font-size-label);
-  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+  color: var(--field-muted, var(--color-text-muted));
 }
 
-/* შეცდომა — წითლად */
+/* შეცდომა */
 .form-field__error {
-  margin: 0;
-  font-size: var(--font-size-label);
-  color: var(--color-error);
+  font-size: var(--font-size-small);
+  color: var(--field-error, var(--color-error));
 }

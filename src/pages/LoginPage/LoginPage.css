@@ -1,0 +1,13 @@
+.login-form__forgot {
+  align-self: flex-start;
+  margin-top: calc(var(--space-16) * -1);
+  font-size: var(--font-size-small);
+}
+
+.login-form__footer {
+  font-size: var(--font-size-label);
+  color: var(--color-on-dark);         
+
+.login-form__footer a {
+  font-weight: var(--font-weight-bold);
+}

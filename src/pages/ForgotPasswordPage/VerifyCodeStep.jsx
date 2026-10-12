@@ -5,6 +5,7 @@ import FormField from '../../shared/ui/FormField/FormField'
 import Input from '../../shared/ui/Input/Input'
 import Button from '../../shared/ui/Button/Button'
 import Alert from '../../shared/ui/Alert/Alert'
+import { ArrowRightIcon } from '../../shared/ui/icons/icons'
 import { authService } from '../../shared/services/authService'
 import { codeSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
@@ -65,19 +66,20 @@ export default function VerifyCodeStep({ email, onVerified, onStartOver }) {
       {formError && <Alert variant="error">{formError}</Alert>}
 
       <fieldset className="forgot-form__fieldset" disabled={isSubmitting}>
-        <FormField id="code" label="კოდი" error={errors.code?.message}>
+        <FormField id="code" label="კოდი" hideLabel error={errors.code?.message}>
           <Input
             id="code"
             inputMode="numeric"
             autoComplete="one-time-code"
             maxLength={6}
+            placeholder="6-ციფრიანი კოდი"
             error={!!errors.code}
             {...register('code')}
           />
         </FormField>
 
         <Button type="submit" loading={isSubmitting}>
-          დადასტურება
+          დადასტურება <ArrowRightIcon />
         </Button>
       </fieldset>
     </form>

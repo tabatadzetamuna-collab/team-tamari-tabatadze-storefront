@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Link } from 'react-router-dom'
 import FormField from '../../shared/ui/FormField/FormField'
 import Input from '../../shared/ui/Input/Input'
 import Button from '../../shared/ui/Button/Button'
 import Alert from '../../shared/ui/Alert/Alert'
+import { MailIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
 import { authService } from '../../shared/services/authService'
 import { forgotSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
@@ -40,19 +42,26 @@ export default function RequestCodeStep({ onCodeSent }) {
       {formError && <Alert variant="error">{formError}</Alert>}
 
       <fieldset className="forgot-form__fieldset" disabled={isSubmitting}>
-        <FormField id="email" label="ელფოსტა" error={errors.email?.message}>
+        <FormField id="email" label="ელფოსტა" hideLabel error={errors.email?.message}>
           <Input
             id="email"
             type="email"
             autoComplete="email"
+            placeholder="შეიყვანე ელფოსტა"
+            icon={<MailIcon />}
             error={!!errors.email}
             {...register('email')}
           />
         </FormField>
 
-        <Button type="submit" loading={isSubmitting}>
-          კოდის მიღება
-        </Button>
+        <div className="forgot-form__actions">
+          <Link to="/login" className="button button--secondary" aria-label="დაბრუნება შესვლაზე">
+            დაბრუნება
+          </Link>
+          <Button type="submit" loading={isSubmitting}>
+            კოდის მიღება <ArrowRightIcon />
+          </Button>
+        </div>
       </fieldset>
     </form>
   )

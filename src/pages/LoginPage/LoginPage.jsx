@@ -9,6 +9,7 @@ import Input from '../../shared/ui/Input/Input'
 import PasswordInput from '../../shared/ui/PasswordInput/PasswordInput'
 import Button from '../../shared/ui/Button/Button'
 import Alert from '../../shared/ui/Alert/Alert'
+import { MailIcon, LockIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
 import { loginSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
 import './LoginPage.css'
@@ -17,7 +18,7 @@ export default function LoginPage() {
   const { signIn, expiredNotice } = useSession()
   const navigate = useNavigate()
   const location = useLocation()
-  const [formError, setFormError] = useState(null) // ბანერი ფორმის თავში
+  const [formError, setFormError] = useState(null)
 
   const {
     register,
@@ -35,7 +36,6 @@ export default function LoginPage() {
     setFormError(null)
     try {
       await signIn(values)
-
       const from = location.state?.from
       navigate(from ? `${from.pathname}${from.search}` : '/', { replace: true })
     } catch (error) {
@@ -49,7 +49,7 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthLayout title="შესვლა">
+    <AuthLayout title="შესვლა" subtitle="კეთილი იყოს შენი დაბრუნება">
       {expiredNotice && !formError && (
         <Alert variant="info">სესიას ვადა გაუვიდა. გთხოვ, თავიდან შედი.</Alert>
       )}
@@ -57,20 +57,24 @@ export default function LoginPage() {
 
       <form className="login-form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <fieldset className="login-form__fieldset" disabled={isSubmitting}>
-          <FormField id="email" label="ელფოსტა" error={errors.email?.message}>
+          <FormField id="email" label="ელფოსტა" hideLabel error={errors.email?.message}>
             <Input
               id="email"
               type="email"
               autoComplete="email"
+              placeholder="შეიყვანე ელფოსტა"
+              icon={<MailIcon />}
               error={!!errors.email}
               {...register('email')}
             />
           </FormField>
 
-          <FormField id="password" label="პაროლი" error={errors.password?.message}>
+          <FormField id="password" label="პაროლი" hideLabel error={errors.password?.message}>
             <PasswordInput
               id="password"
               autoComplete="current-password"
+              placeholder="შეიყვანე პაროლი"
+              icon={<LockIcon />}
               error={!!errors.password}
               {...register('password')}
             />
@@ -81,7 +85,7 @@ export default function LoginPage() {
           </Link>
 
           <Button type="submit" loading={isSubmitting}>
-            შესვლა
+            შესვლა <ArrowRightIcon />
           </Button>
         </fieldset>
       </form>

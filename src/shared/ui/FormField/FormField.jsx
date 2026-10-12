@@ -1,20 +1,21 @@
 import { Children, cloneElement, isValidElement } from 'react'
 import './FormField.css'
 
-export default function FormField({ id, label, hint, error, children }) {
-  const hintId = hint ? `${id}-hint` : undefined
+// label + ველი + მინიშნება + შეცდომა ერთ ბლოკში.
+// FormField თავად აბამს ველს aria-describedby-ს, რომ ეკრანის წამკითხველმა
+// მინიშნებაც და შეცდომაც წაიკითხოს — გვერდებს ამაზე ფიქრი აღარ სჭირდებათ.
+export default function FormField({ id, label, hint, error, hideLabel = false, children }) {  const hintId = hint ? `${id}-hint` : undefined
   const errorId = error ? `${id}-error` : undefined
-
   const describedBy = [errorId, hintId].filter(Boolean).join(' ') || undefined
 
-  const child = Children.only(children)
-  const control = isValidElement(child)
-    ? cloneElement(child, { 'aria-describedby': describedBy })
-    : child
+  // ყველა შიდა ელემენტს (Input / PasswordInput) aria-describedby ემატება
+  const control = Children.map(children, (child) =>
+    isValidElement(child) ? cloneElement(child, { 'aria-describedby': describedBy }) : child
+  )
 
   return (
     <div className="form-field">
-      <label htmlFor={id} className="form-field__label">
+      <label htmlFor={id} className={hideLabel ? 'visually-hidden' : 'form-field__label'}>
         {label}
       </label>
 

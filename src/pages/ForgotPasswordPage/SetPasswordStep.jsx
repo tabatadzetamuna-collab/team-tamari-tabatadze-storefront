@@ -5,6 +5,7 @@ import FormField from '../../shared/ui/FormField/FormField'
 import PasswordInput from '../../shared/ui/PasswordInput/PasswordInput'
 import Button from '../../shared/ui/Button/Button'
 import Alert from '../../shared/ui/Alert/Alert'
+import { LockIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
 import { authService } from '../../shared/services/authService'
 import { newPasswordSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
@@ -57,12 +58,15 @@ export default function SetPasswordStep({ resetToken, onPasswordChanged, onStart
         <FormField
           id="password"
           label="ახალი პაროლი"
+          hideLabel
           hint="პაროლი უნდა შეიცავდეს მინიმუმ 8 სიმბოლოს, მათ შორის 1 ასოს და 1 ციფრს"
           error={errors.password?.message}
         >
           <PasswordInput
             id="password"
             autoComplete="new-password"
+            placeholder="ახალი პაროლი"
+            icon={<LockIcon />}
             error={!!errors.password}
             {...register('password')}
           />
@@ -71,18 +75,21 @@ export default function SetPasswordStep({ resetToken, onPasswordChanged, onStart
         <FormField
           id="confirmPassword"
           label="გაიმეორე პაროლი"
+          hideLabel
           error={errors.confirmPassword?.message}
         >
           <PasswordInput
             id="confirmPassword"
             autoComplete="new-password"
+            placeholder="გაიმეორე პაროლი"
+            icon={<LockIcon />}
             error={!!errors.confirmPassword}
             {...register('confirmPassword')}
           />
         </FormField>
 
         <Button type="submit" loading={isSubmitting}>
-          პაროლის შეცვლა
+          პაროლის შეცვლა <ArrowRightIcon />
         </Button>
       </fieldset>
     </form>
