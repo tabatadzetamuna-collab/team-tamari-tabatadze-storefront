@@ -33,12 +33,11 @@ export default function SessionProvider({ children }) {
   }, [])
 
   useEffect(() => {
-    onSessionExpired(() => {
+    return onSessionExpired(() => {
       setUser(null)
       setStatus('signedOut')
       setExpiredNotice(true)
     })
-    return () => onSessionExpired(null)
   }, [])
 
   const startSession = useCallback((data) => {
@@ -59,7 +58,7 @@ export default function SessionProvider({ children }) {
   )
 
   const signOut = useCallback(() => {
-    authService.logout().catch(() => {}) // შედეგი არ გვაინტერესებს
+    authService.logout().catch(() => {})
     clearToken()
     setUser(null)
     setStatus('signedOut')

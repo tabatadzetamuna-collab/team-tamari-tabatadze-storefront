@@ -2,6 +2,10 @@ import { readToken, clearToken } from './tokenStorage'
 
 const BASE_URL = import.meta.env.VITE_API_URL
 
+if (!BASE_URL) {
+  throw new Error('VITE_API_URL არ არის მითითებული — დააკოპირე .env.example → .env')
+}
+
 export class HttpError extends Error {
   constructor(status, data) {
     super(data?.message || 'მოთხოვნა ვერ შესრულდა')
@@ -11,9 +15,11 @@ export class HttpError extends Error {
   }
 }
 
-let handleExpiredSession = null
-export function onSessionExpired(callback) {
-  handleExpiredSession = callback
+const expiredListeners = new Set()
+
+export function onSessionExpired(listener) {
+  expiredListeners.add(listener)
+  return () => expiredListeners.delete(listener)
 }
 
 export async function sendRequest(path, { method = 'GET', body, withToken = true } = {}) {
@@ -44,7 +50,7 @@ export async function sendRequest(path, { method = 'GET', body, withToken = true
 
     if (response.status === 401 && ['TOKEN_EXPIRED', 'INVALID_TOKEN'].includes(error.code)) {
       clearToken()
-      handleExpiredSession?.()
+      expiredListeners.forEach((listener) => listener())
     }
 
     throw error

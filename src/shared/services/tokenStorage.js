@@ -4,14 +4,22 @@ export function readToken() {
   try {
     return localStorage.getItem(STORAGE_KEY)
   } catch {
-    return null // ზოგ ბრაუზერში localStorage შეიძლება მიუწვდომელი იყოს
+    return null // 
   }
 }
 
 export function saveToken(token) {
-  localStorage.setItem(STORAGE_KEY, token)
+  try {
+    localStorage.setItem(STORAGE_KEY, token)
+  } catch {
+    // 
+  }
 }
 
 export function clearToken() {
-  localStorage.removeItem(STORAGE_KEY)
+  try {
+    localStorage.removeItem(STORAGE_KEY)
+  } catch {
+    // 
+  }
 }
