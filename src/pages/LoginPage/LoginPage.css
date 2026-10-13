@@ -6,7 +6,8 @@
 
 .login-form__footer {
   font-size: var(--font-size-label);
-  color: var(--color-on-dark);         
+  color: var(--color-on-dark-muted);
+}
 
 .login-form__footer a {
   font-weight: var(--font-weight-bold);
