@@ -1,0 +1,68 @@
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--control-height);
+  padding: 0 var(--space-24);
+  border: 1px solid var(--button-bg, var(--color-accent));
+  border-radius: var(--radius-pill);
+  background: var(--button-bg, var(--color-accent));
+  color: var(--button-text, var(--color-on-accent));
+  font-family: var(--font-body);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.button:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button--secondary {
+  background: transparent;
+  color: var(--button-bg, var(--color-accent));
+}
+
+.button--loading,
+.button--loading:disabled {
+  opacity: 1;
+  cursor: progress;
+}
+
+.button--loading .button__text {
+  visibility: hidden;
+}
+
+.button__spinner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: button-spin 0.7s linear infinite;
+}
+
+@keyframes button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button__spinner {
+    animation-duration: 1.5s;
+  }
+}

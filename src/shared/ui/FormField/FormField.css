@@ -1,0 +1,23 @@
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.form-field__label {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--field-muted, var(--color-text-muted));
+}
+
+/* მინიშნება — ყოველთვის ჩანს */
+.form-field__hint {
+  font-size: var(--font-size-small);
+  color: var(--field-muted, var(--color-text-muted));
+}
+
+/* შეცდომა */
+.form-field__error {
+  font-size: var(--font-size-small);
+  color: var(--field-error, var(--color-error));
+}
