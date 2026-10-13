@@ -63,3 +63,11 @@ export function EyeOffIcon() {
     </svg>
   )
 }
+export function KeyIcon() {
+  return (
+    <svg {...base}>
+      <circle cx="8" cy="15" r="4" />
+      <path d="m10.8 12.2 9.2-9.2M17 6l3 3M14 9l2 2" />
+    </svg>
+  )
+}

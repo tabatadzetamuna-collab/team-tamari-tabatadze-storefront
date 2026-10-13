@@ -1,72 +1,75 @@
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from 'react-router-dom'
 import AuthLayout from '../../layouts/AuthLayout/AuthLayout'
-import FormField from '../../shared/ui/FormField/FormField'
-import Input from '../../shared/ui/Input/Input'
-import Button from '../../shared/ui/Button/Button'
 import Alert from '../../shared/ui/Alert/Alert'
-import { MailIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
-import { forgotSchema } from '../../shared/lib/validation'
+import RequestCodeStep from './RequestCodeStep'
+import VerifyCodeStep from './VerifyCodeStep'
+import SetPasswordStep from './SetPasswordStep'
 import './ForgotPasswordPage.css'
 
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+const STEP_NUMBER = { request: 1, verify: 2, password: 3 }
 
 export default function ForgotPasswordPage() {
-  const [sent, setSent] = useState(false)
+  const [step, setStep] = useState('request') // 'request' | 'verify' | 'password' | 'done'
+  const [email, setEmail] = useState('')
+  const [resetToken, setResetToken] = useState(null)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: zodResolver(forgotSchema),
-    mode: 'onSubmit',
-    reValidateMode: 'onChange',
-    defaultValues: { email: '' },
-  })
-
-  async function onSubmit(values) {
-    await wait(800)
-    console.log(values)
-    setSent(true)
+  function startOver() {
+    setResetToken(null)
+    setStep('request')
   }
 
   return (
     <AuthLayout title="პაროლის აღდგენა">
-      {sent && (
-        <Alert variant="success">
-        </Alert>
+      {STEP_NUMBER[step] && (
+        <p className="forgot-page__step">ნაბიჯი {STEP_NUMBER[step]} / 3</p>
       )}
 
-      <form className="forgot-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-        <FormField id="email" label="ელფოსტა" hideLabel error={errors.email?.message}>
-          <Input
-            id="email"
-            type="email"
-            autoComplete="email"
-            placeholder="შეიყვანე ელფოსტა"
-            icon={<MailIcon />}
-            error={!!errors.email}
-            {...register('email')}
-          />
-        </FormField>
+      {step === 'request' && (
+        <RequestCodeStep
+          onCodeSent={(sentEmail) => {
+            setEmail(sentEmail)
+            setStep('verify')
+          }}
+        />
+      )}
 
-        <div className="forgot-form__actions">
-          <Link
-            to="/login"
-            className="button button--secondary"
-            aria-label="დაბრუნება შესვლაზე"
-          >
-            დაბრუნება
+      {step === 'verify' && (
+        <VerifyCodeStep
+          email={email}
+          onVerified={(token) => {
+            setResetToken(token)
+            setStep('password')
+          }}
+          onStartOver={startOver}
+        />
+      )}
+
+      {step === 'password' && (
+        <SetPasswordStep
+          resetToken={resetToken}
+          onPasswordChanged={() => {
+            setResetToken(null)
+            setStep('done')
+          }}
+          onStartOver={startOver}
+        />
+      )}
+
+      {step === 'done' && (
+        <>
+          <Alert variant="success">პაროლი წარმატებით შეიცვალა.</Alert>
+          <Link to="/login" className="forgot-page__login-link">
+            შესვლა ახალი პაროლით
           </Link>
+        </>
+      )}
 
-          <Button type="submit" loading={isSubmitting}>
-            ბმულის გაგზავნა <ArrowRightIcon />
-          </Button>
-        </div>
-      </form>
+      {(step === 'verify' || step === 'password') && (
+        <p className="forgot-form__footer">
+          <Link to="/login">დაბრუნება შესვლაზე</Link>
+        </p>
+      )}
     </AuthLayout>
   )
 }
