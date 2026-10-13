@@ -54,6 +54,18 @@
   border-radius: 50%;
   animation: button-spin 0.7s linear infinite;
 }
+.button--outline {
+  border-radius: var(--radius-md);
+  background: transparent;
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.button--outline:hover:not(:disabled) {
+  opacity: 1;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
 
 @keyframes button-spin {
   to {

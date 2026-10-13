@@ -66,4 +66,12 @@
   --font-size-body: 16px;
   --font-size-title: 28px;
   --letter-spacing-caps: 0.04em;
+
+  --top-bar-height: 82px;
+  --font-size-nav: 12px;
+  --font-size-heading-xl: 24px;
+  --line-height-heading-xl: 28px;
+  --control-height-lg: 51px;
+  --shadow-header: 0 2px 6px rgb(0 0 0 / 0.06);
+  --logo-height: 36px;
 }
