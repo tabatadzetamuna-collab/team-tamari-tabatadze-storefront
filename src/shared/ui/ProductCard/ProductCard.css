@@ -1,0 +1,27 @@
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.product-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.product-card__media {
+  position: relative;
+}
+
+/* FE-003: ფიქსირებული პროპორცია — სურათის ჩატვირთვისას ბადე არ ხტება */
+.product-card__image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+}
+
+.product-card__price-old {
+  margin-left: var(--space-8);
+  color: var(--color-text-muted);
+}
