@@ -51,7 +51,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <AuthLayout title="რეგისტრაცია" subtitle="შექმენი ახალი ანგარიში">
+    <AuthLayout title="რეგისტრაცია">
       {formError && <Alert variant="error">{formError}</Alert>}
 
       <form className="register-form" onSubmit={handleSubmit(onSubmit)} noValidate>

@@ -5,10 +5,10 @@ import FormField from '../../shared/ui/FormField/FormField'
 import Input from '../../shared/ui/Input/Input'
 import Button from '../../shared/ui/Button/Button'
 import Alert from '../../shared/ui/Alert/Alert'
-import { ArrowRightIcon } from '../../shared/ui/icons/icons'
 import { authService } from '../../shared/services/authService'
 import { codeSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
+import { KeyIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
 
 export default function VerifyCodeStep({ email, onVerified, onStartOver }) {
   const [formError, setFormError] = useState(null)
@@ -60,9 +60,9 @@ export default function VerifyCodeStep({ email, onVerified, onStartOver }) {
 
   return (
     <form className="forgot-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-      <Alert variant="info">
+      <p className="forgot-form__note">
         თუ {email}-ზე ანგარიში არსებობს, გამოგიგზავნეთ 6-ციფრიანი კოდი.
-      </Alert>
+      </p>
       {formError && <Alert variant="error">{formError}</Alert>}
 
       <fieldset className="forgot-form__fieldset" disabled={isSubmitting}>
@@ -72,7 +72,8 @@ export default function VerifyCodeStep({ email, onVerified, onStartOver }) {
             inputMode="numeric"
             autoComplete="one-time-code"
             maxLength={6}
-            placeholder="6-ციფრიანი კოდი"
+            placeholder="შეიყვანე კოდი"
+            icon={<KeyIcon />}
             error={!!errors.code}
             {...register('code')}
           />

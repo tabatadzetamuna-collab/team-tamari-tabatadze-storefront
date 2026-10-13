@@ -49,7 +49,7 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthLayout title="შესვლა" subtitle="კეთილი იყოს შენი დაბრუნება">
+    <AuthLayout title="შესვლა">
       {expiredNotice && !formError && (
         <Alert variant="info">სესიას ვადა გაუვიდა. გთხოვ, თავიდან შედი.</Alert>
       )}
