@@ -68,12 +68,14 @@
   text-overflow: ellipsis;
   font-size: var(--font-size-label);
   color: var(--color-text);
+  text-decoration: none;
 }
 
 .top-bar .button {
   min-height: 36px;
   padding: 0 var(--space-16);
 }
+
 
 @media (max-width: 768px) {
   .top-bar__left {

@@ -33,10 +33,10 @@ export default function TopBar() {
             <div className="top-bar__user">
               {user ? (
                 <>
-                <span className="top-bar__name">
-                 <UserIcon />
-                  {user.name}
-                </span>
+            <Link to="/profile" className="top-bar__name">
+              <UserIcon />
+              {user.name}
+            </Link>
                 <Button variant="outline" onClick={signOut}>
                   გამოსვლა
                 </Button>
