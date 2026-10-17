@@ -72,3 +72,15 @@ export const profileSchema = z
       })
     }
   })
+export const addressSchema = z.object({
+  label: z.string().trim().max(30, 'მაქსიმუმ 30 სიმბოლო'),
+  fullName: z.string().trim().min(2, 'მინიმუმ 2 სიმბოლო'),
+  phone: z
+    .string()
+    .trim()
+    .min(9, 'ტელეფონი: 9–20 სიმბოლო')
+    .max(20, 'ტელეფონი: 9–20 სიმბოლო'),
+  city: z.string().trim().min(2, 'მინიმუმ 2 სიმბოლო'),
+  address: z.string().trim().min(5, 'მინიმუმ 5 სიმბოლო'),
+  isDefault: z.boolean(),
+})

@@ -167,7 +167,6 @@ export default function AccountPage() {
             <FormField
               id="currentPassword"
               label="მიმდინარე პაროლი"
-              hint="ცვლილებების დასადასტურებლად"
               error={errors.currentPassword?.message}
             >
               <PasswordInput
