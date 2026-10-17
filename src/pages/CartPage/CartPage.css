@@ -7,36 +7,44 @@
 }
 
 .cart-page__title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-12);
   font-family: var(--font-heading);
-  font-size: var(--font-size-heading-xl);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-title);
+  font-weight: var(--font-weight-bold);
+}
+
+.cart-page__count {
+  font-family: var(--font-body);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
 }
 
 .cart-page__layout {
   display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: var(--space-24);
+  grid-template-columns: 1fr 320px;
+  gap: var(--space-48);
   align-items: start;
 }
 
 .cart-page__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-12);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .cart-page__skeleton {
-  height: 112px;
+  height: 120px;
+  margin-bottom: var(--space-12);
 }
 
-/* ჯამის ბარათი */
 .cart-summary {
   display: flex;
   flex-direction: column;
-  gap: var(--space-12);
+  gap: var(--space-16);
   padding: var(--space-24);
   background: var(--color-bg);
   border: 1px solid var(--color-border);
@@ -44,29 +52,28 @@
 }
 
 .cart-summary__title {
-  padding-bottom: var(--space-12);
-  border-bottom: 1px solid var(--color-border);
-  font-size: var(--font-size-label);
-  font-weight: var(--font-weight-medium);
-  text-transform: uppercase;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-bold);
 }
 
 .cart-summary__row {
   display: flex;
   justify-content: space-between;
-  font-size: var(--font-size-label);
+  font-size: var(--font-size-small);
 }
 
 .cart-summary__row--total {
-  padding-top: var(--space-12);
+  padding-top: var(--space-16);
   border-top: 1px solid var(--color-border);
-  font-size: var(--font-size-body);
+  font-size: var(--font-size-label);
   font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
 }
 
 .cart-summary .button {
   width: 100%;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
 }
 
 .cart-summary__hint {
@@ -77,5 +84,6 @@
 @media (max-width: 900px) {
   .cart-page__layout {
     grid-template-columns: 1fr;
+    gap: var(--space-24);
   }
 }

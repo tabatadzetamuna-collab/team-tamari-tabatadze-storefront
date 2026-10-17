@@ -76,7 +76,9 @@ export default function CartPage() {
 
   return (
     <section className="cart-page">
-      <h1 className="cart-page__title">კალათა</h1>
+      <h1 className="cart-page__title">
+        კალათა <span className="cart-page__count">{cart.totalQty} ნივთი</span>
+      </h1>
 
       <div className="cart-page__layout">
         <ul className="cart-page__list">
@@ -104,7 +106,7 @@ export default function CartPage() {
           </p>
 
           <Button disabled={hasStockProblem} onClick={() => navigate('/checkout')}>
-            ჩექაუთზე გადასვლა
+            შეკვეთის გაფორმება
           </Button>
           {hasStockProblem && (
             <p className="cart-summary__hint">ჯერ რაოდენობა მარაგს შეუსაბამე</p>

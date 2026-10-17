@@ -19,53 +19,60 @@ export default function CartLine({ item, pending, error, onChangeQty, onRemove }
         </Link>
         <p className="cart-line__price">{formatPrice(product.price)}</p>
 
-        {overStock && (
+        {overStock ? (
           <p className="cart-line__warning" role="alert">
             მარაგში მხოლოდ {product.stock} ცალია
           </p>
+        ) : (
+          <p className="cart-line__stock">მარაგშია</p>
         )}
         {error && (
           <p className="cart-line__warning" role="alert">
             {error}
           </p>
         )}
+
+        <div className="cart-line__controls">
+          <div className="stepper" role="group" aria-label={`რაოდენობა: ${product.title}`}>
+            <button
+              type="button"
+              className="stepper__button"
+              aria-label="რაოდენობის შემცირება"
+              disabled={pending || qty <= 1}
+              onClick={() => onChangeQty(qty - 1)}
+            >
+              −
+            </button>
+            <span className="stepper__value" aria-live="polite">
+              {qty}
+            </span>
+            <button
+              type="button"
+              className="stepper__button"
+              aria-label="რაოდენობის გაზრდა"
+              disabled={pending || qty >= max}
+              onClick={() => onChangeQty(qty + 1)}
+            >
+              +
+            </button>
+          </div>
+
+          <button
+            type="button"
+            className="cart-line__remove"
+            aria-label={`წაშლა: ${product.title}`}
+            disabled={pending}
+            onClick={onRemove}
+          >
+            <TrashIcon />
+          </button>
+        </div>
       </div>
 
-      <div className="stepper" role="group" aria-label={`რაოდენობა: ${product.title}`}>
-        <button
-          type="button"
-          className="stepper__button"
-          aria-label="რაოდენობის შემცირება"
-          disabled={pending || qty <= 1}
-          onClick={() => onChangeQty(qty - 1)}
-        >
-          −
-        </button>
-        <span className="stepper__value" aria-live="polite">
-          {qty}
-        </span>
-        <button
-          type="button"
-          className="stepper__button"
-          aria-label="რაოდენობის გაზრდა"
-          disabled={pending || qty >= max}
-          onClick={() => onChangeQty(qty + 1)}
-        >
-          +
-        </button>
+      <div className="cart-line__total">
+        <span className="cart-line__total-label">ჯამი ({qty} ცალი)</span>
+        <span className="cart-line__total-value">{formatPrice(lineTotal)}</span>
       </div>
-
-      <p className="cart-line__total">{formatPrice(lineTotal)}</p>
-
-      <button
-        type="button"
-        className="cart-line__remove"
-        aria-label={`წაშლა: ${product.title}`}
-        disabled={pending}
-        onClick={onRemove}
-      >
-        <TrashIcon />
-      </button>
     </li>
   )
 }
