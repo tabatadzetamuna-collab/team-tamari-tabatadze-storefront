@@ -44,3 +44,43 @@ export const newPasswordSchema = z
     message: 'პაროლები არ ემთხვევა',
     path: ['confirmPassword'],
   })
+export const profileSchema = z
+  .object({
+    name: z.string().trim().min(2, 'სახელი უნდა იყოს მინიმუმ 2 სიმბოლო'),
+    email: z.string().trim().min(1, 'შეიყვანე ელფოსტა').email('ელფოსტა არასწორია'),
+    newPassword: z.string(),
+    confirmNewPassword: z.string(),
+    currentPassword: z.string().min(1, 'შეიყვანე მიმდინარე პაროლი'),
+  })
+  .superRefine((values, ctx) => {
+    if (!values.newPassword) return
+
+    const result = newPassword.safeParse(values.newPassword)
+    if (!result.success) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['newPassword'],
+        message: result.error.issues[0].message,
+      })
+    }
+
+    if (values.newPassword !== values.confirmNewPassword) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['confirmNewPassword'],
+        message: 'პაროლები არ ემთხვევა',
+      })
+    }
+  })
+export const addressSchema = z.object({
+  label: z.string().trim().max(30, 'მაქსიმუმ 30 სიმბოლო'),
+  fullName: z.string().trim().min(2, 'მინიმუმ 2 სიმბოლო'),
+  phone: z
+    .string()
+    .trim()
+    .min(9, 'ტელეფონი: 9–20 სიმბოლო')
+    .max(20, 'ტელეფონი: 9–20 სიმბოლო'),
+  city: z.string().trim().min(2, 'მინიმუმ 2 სიმბოლო'),
+  address: z.string().trim().min(5, 'მინიმუმ 5 სიმბოლო'),
+  isDefault: z.boolean(),
+})

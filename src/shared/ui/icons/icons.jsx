@@ -79,3 +79,36 @@ export function SearchIcon() {
     </svg>
   )
 }
+export function MapPinIcon() {
+  return (
+    <svg {...base}>
+      <path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12Z" />
+      <circle cx="12" cy="9" r="2.5" />
+    </svg>
+  )
+}
+
+export function LogoutIcon() {
+  return (
+    <svg {...base}>
+      <path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3" />
+      <path d="M10 17l-5-5 5-5M5 12h11" />
+    </svg>
+  )
+}
+export function EditIcon() {
+  return (
+    <svg {...base}>
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+    </svg>
+  )
+}
+export function TrashIcon() {
+  return (
+    <svg {...base}>
+      <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13" />
+      <path d="M10 11v6M14 11v6" />
+    </svg>
+  )
+}
