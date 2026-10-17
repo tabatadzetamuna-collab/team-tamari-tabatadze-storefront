@@ -1,0 +1,71 @@
+import { Link } from 'react-router-dom'
+import { formatPrice } from '../../shared/lib/formatPrice'
+import { TrashIcon } from '../../shared/ui/icons/icons'
+import { CART_MAX_QTY } from '../../config'
+import './cart.css'
+
+export default function CartLine({ item, pending, error, onChangeQty, onRemove }) {
+  const { qty, lineTotal, product } = item
+  const max = Math.min(product.stock, CART_MAX_QTY)
+  const overStock = qty > product.stock
+
+  return (
+    <li className="cart-line">
+      <img src={product.image} alt="" className="cart-line__image" />
+
+      <div className="cart-line__info">
+        <Link to={`/product/${product.slug}`} className="cart-line__title">
+          {product.title}
+        </Link>
+        <p className="cart-line__price">{formatPrice(product.price)}</p>
+
+        {overStock && (
+          <p className="cart-line__warning" role="alert">
+            მარაგში მხოლოდ {product.stock} ცალია
+          </p>
+        )}
+        {error && (
+          <p className="cart-line__warning" role="alert">
+            {error}
+          </p>
+        )}
+      </div>
+
+      <div className="stepper" role="group" aria-label={`რაოდენობა: ${product.title}`}>
+        <button
+          type="button"
+          className="stepper__button"
+          aria-label="რაოდენობის შემცირება"
+          disabled={pending || qty <= 1}
+          onClick={() => onChangeQty(qty - 1)}
+        >
+          −
+        </button>
+        <span className="stepper__value" aria-live="polite">
+          {qty}
+        </span>
+        <button
+          type="button"
+          className="stepper__button"
+          aria-label="რაოდენობის გაზრდა"
+          disabled={pending || qty >= max}
+          onClick={() => onChangeQty(qty + 1)}
+        >
+          +
+        </button>
+      </div>
+
+      <p className="cart-line__total">{formatPrice(lineTotal)}</p>
+
+      <button
+        type="button"
+        className="cart-line__remove"
+        aria-label={`წაშლა: ${product.title}`}
+        disabled={pending}
+        onClick={onRemove}
+      >
+        <TrashIcon />
+      </button>
+    </li>
+  )
+}

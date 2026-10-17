@@ -10,6 +10,7 @@ import ProductPage from './pages/ProductPage/ProductPage'
 import ProfileLayout from './features/profile/ProfileLayout/ProfileLayout'
 import AccountPage from './pages/AccountPage/AccountPage'
 import AddressesPage from './pages/AddressesPage/AddressesPage'
+import CartPage from './pages/CartPage/CartPage'
 
 export default function App() {
   return (
@@ -25,10 +26,13 @@ export default function App() {
 
       <Route element={<RequireSession><ShopLayout /></RequireSession>}>
         <Route path="/" element={<MainPage />} />
+
         <Route path="/profile" element={<ProfileLayout />}>
           <Route index element={<AccountPage />} />
           <Route path="addresses" element={<AddressesPage />} />
         </Route>
+
+        <Route path="/cart" element={<CartPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

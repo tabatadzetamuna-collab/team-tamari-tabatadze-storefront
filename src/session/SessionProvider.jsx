@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { SessionContext } from './SessionContext'
 import { authService } from '../shared/services/authService'
 import { onSessionExpired } from '../shared/services/httpClient'
@@ -8,6 +9,7 @@ export default function SessionProvider({ children }) {
   const [status, setStatus] = useState(() => (readToken() ? 'checking' : 'signedOut'))
   const [user, setUser] = useState(null)
   const [expiredNotice, setExpiredNotice] = useState(false)
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     if (!readToken()) return
@@ -32,13 +34,19 @@ export default function SessionProvider({ children }) {
     }
   }, [])
 
+  const clearUserData = useCallback(() => {
+    queryClient.removeQueries({ queryKey: ['cart'] })
+    queryClient.removeQueries({ queryKey: ['addresses'] })
+  }, [queryClient])
+
   useEffect(() => {
     return onSessionExpired(() => {
+      clearUserData()
       setUser(null)
       setStatus('signedOut')
       setExpiredNotice(true)
     })
-  }, [])
+  }, [clearUserData])
 
   const startSession = useCallback((data) => {
     saveToken(data.accessToken)
@@ -60,9 +68,10 @@ export default function SessionProvider({ children }) {
   const signOut = useCallback(() => {
     authService.logout().catch(() => {})
     clearToken()
+    clearUserData()
     setUser(null)
     setStatus('signedOut')
-  }, [])
+  }, [clearUserData])
 
   const updateUser = useCallback((nextUser) => setUser(nextUser), [])
 

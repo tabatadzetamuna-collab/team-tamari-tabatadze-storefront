@@ -1,11 +1,14 @@
 import { Link, NavLink } from 'react-router-dom'
 import { useSession } from '../../session/useSession'
+import { useCart } from '../../features/cart/useCart'
 import Button from '../../shared/ui/Button/Button'
-import { UserIcon } from '../../shared/ui/icons/icons'
+import { UserIcon, CartIcon } from '../../shared/ui/icons/icons'
 import './TopBar.css'
 
 export default function TopBar() {
   const { user, signOut } = useSession()
+  const { data: cart } = useCart()
+  const count = cart?.totalQty ?? 0
 
   return (
     <header className="top-bar">
@@ -30,23 +33,32 @@ export default function TopBar() {
         </nav>
       </div>
 
-            <div className="top-bar__user">
-              {user ? (
-                <>
+      <div className="top-bar__user">
+        <Link to="/cart" className="top-bar__cart" aria-label={`კალათა, ${count} ნივთი`}>
+          <CartIcon />
+          {count > 0 && (
+            <span className="top-bar__badge" aria-hidden="true">
+              {count}
+            </span>
+          )}
+        </Link>
+
+        {user ? (
+          <>
             <Link to="/profile" className="top-bar__name">
               <UserIcon />
               {user.name}
             </Link>
-                <Button variant="outline" onClick={signOut}>
-                  გამოსვლა
-                </Button>
-                </>
-            ) : (
-                <Link to="/login" className="button button--outline">
-                  შესვლა
-                </Link>
-               )}
-              </div>
+            <Button variant="outline" onClick={signOut}>
+              გამოსვლა
+            </Button>
+          </>
+        ) : (
+          <Link to="/login" className="button button--outline">
+            შესვლა
+          </Link>
+        )}
+      </div>
     </header>
   )
 }
