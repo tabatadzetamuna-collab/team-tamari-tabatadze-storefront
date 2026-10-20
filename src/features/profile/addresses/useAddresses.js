@@ -7,6 +7,7 @@ export function useAddresses() {
   return useQuery({
     queryKey: ['addresses', user?.id],
     queryFn: () => addressService.list(),
+    enabled: !!user,
   })
 }
 
