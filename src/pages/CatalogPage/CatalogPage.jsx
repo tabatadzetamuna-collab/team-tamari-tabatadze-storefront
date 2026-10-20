@@ -14,7 +14,13 @@ import './CatalogPage.css'
 export default function CatalogPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const category = useCategory(CATEGORY_SLUG)
-  const products = useProducts(toApiParams(searchParams))
+
+  const filterKeys =
+    category.data?.filters.filter((f) => f.type !== 'range').map((f) => f.key) ?? []
+
+  const products = useProducts(toApiParams(searchParams, filterKeys), {
+    enabled: category.isSuccess || category.isError,
+  })
   const { data } = products
   const listRef = useRef(null)
 
@@ -92,6 +98,14 @@ export default function CatalogPage() {
       <h1 className="catalog-page__title">{category.data?.name ?? 'მაღაზია'}</h1>
 
       <div className="catalog-page__layout">
+        {category.isError && (
+          <p role="alert" className="catalog-page__filters-error">
+            ფილტრები ვერ ჩაიტვირთა.{' '}
+            <button type="button" onClick={() => category.refetch()}>
+              ხელახლა ცდა
+            </button>
+          </p>
+        )}
         {category.data && <FilterPanel filters={category.data.filters} />}
 
         <div className="catalog-page__main" ref={listRef}>

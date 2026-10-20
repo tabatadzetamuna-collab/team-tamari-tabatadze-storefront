@@ -48,3 +48,21 @@
     grid-template-columns: 1fr;
   }
 }
+.catalog-page__filters-error {
+  align-self: start;
+  padding: var(--space-16);
+  background: var(--color-error-bg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-small);
+  color: var(--color-error);
+}
+
+.catalog-page__filters-error button {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  text-decoration: underline;
+  cursor: pointer;
+}
