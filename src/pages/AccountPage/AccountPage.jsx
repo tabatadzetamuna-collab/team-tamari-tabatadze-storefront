@@ -58,9 +58,7 @@ export default function AccountPage() {
     setFormError(null)
     setSaved(false)
 
-    const changed = Object.fromEntries(
-      changedKeys.filter((key) => values[key] !== '').map((key) => [key, values[key]])
-    )
+    const changed = Object.fromEntries(changedKeys.map((key) => [key, values[key]]))
 
     try {
       const data = await authService.updateProfile({
