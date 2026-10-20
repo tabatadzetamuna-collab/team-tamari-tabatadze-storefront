@@ -1,5 +1,20 @@
 import { useRef, useState } from 'react'
 
+const SWATCH = {
+  natural: '#d9c3a5',
+  beech: '#d8c8ae',
+  oak: '#c8a06a',
+  walnut: '#7b5536',
+  metal: '#9ca3af',
+  mdf: '#c9b79c',
+  'eco-leather': '#8b6b4a',
+}
+
+function swatchColor(value) {
+  if (CSS.supports('color', value)) return value
+  return SWATCH[value] ?? '#ddd'
+}
+
 export function CheckboxFilter({ filter, selected, onChange }) {
   function toggle(value) {
     onChange(selected.includes(value) ? selected.filter((v) => v !== value) : [...selected, value])
@@ -66,7 +81,7 @@ export function ColorFilter({ filter, selected, onChange }) {
             key={option.value}
             type="button"
             className="color-swatch"
-            style={{ background: option.value }}
+                        style={{ background: swatchColor(option.value) }}
             aria-pressed={selected.includes(option.value)}
             aria-label={option.label}
             title={option.label}
@@ -82,7 +97,7 @@ export function RangeFilter({ filter, minValue, maxValue, onChange }) {
   const [draft, setDraft] = useState(null)
   const timer = useRef(null)
 
-  const lowest = 0
+    const lowest = filter.min ?? 0
   const highest = filter.max
 
   const current = draft ?? {
