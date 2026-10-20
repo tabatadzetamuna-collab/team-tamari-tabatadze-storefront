@@ -1,0 +1,68 @@
+.catalog-page {
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+/* ფილტრები მარცხნივ, პროდუქტები მარჯვნივ (Figma: store) */
+.catalog-page__layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: var(--space-24);
+  margin-top: var(--space-24);
+  align-items: start;
+}
+
+.catalog-page__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+  scroll-margin-top: calc(var(--top-bar-height) + var(--space-16));
+}
+
+.catalog-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-24);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.catalog-page__range {
+  text-align: center;
+  font-size: var(--font-size-small);
+  color: var(--color-text-muted);
+}
+.catalog-page__grid {
+  transition: opacity 0.2s;
+}
+
+.catalog-page__grid--stale {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .catalog-page__layout {
+    grid-template-columns: 1fr;
+  }
+}
+.catalog-page__filters-error {
+  align-self: start;
+  padding: var(--space-16);
+  background: var(--color-error-bg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-small);
+  color: var(--color-error);
+}
+
+.catalog-page__filters-error button {
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  text-decoration: underline;
+  cursor: pointer;
+}

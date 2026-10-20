@@ -71,3 +71,11 @@ export function KeyIcon() {
     </svg>
   )
 }
+export function SearchIcon() {
+  return (
+    <svg {...base}>
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-4-4" />
+    </svg>
+  )
+}

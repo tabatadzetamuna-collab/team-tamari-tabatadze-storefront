@@ -22,21 +22,23 @@ export function onSessionExpired(listener) {
   return () => expiredListeners.delete(listener)
 }
 
-export async function sendRequest(path, { method = 'GET', body, withToken = true } = {}) {
+export async function sendRequest(path, { method = 'GET', body, withToken = true, signal } = {}) {
   const headers = {}
   if (body !== undefined) headers['Content-Type'] = 'application/json'
 
   const token = readToken()
   if (withToken && token) headers.Authorization = `Bearer ${token}`
 
-  let response
+    let response
   try {
     response = await fetch(`${BASE_URL}${path}`, {
       method,
       headers,
       body: body !== undefined ? JSON.stringify(body) : undefined,
+      signal,
     })
-  } catch {
+  } catch (err) {
+    if (err.name === 'AbortError') throw err
     throw new HttpError(0, {
       message: 'სერვერთან კავშირი ვერ მოხერხდა. შეამოწმე ინტერნეტი.',
       code: 'NETWORK_ERROR',

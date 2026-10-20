@@ -21,19 +21,32 @@ export default function TopBar() {
                 მთავარი
               </NavLink>
             </li>
+            <li>
+              <NavLink to="/catalog" className="top-bar__nav-link">
+                მაღაზია
+              </NavLink>
+            </li>
           </ul>
         </nav>
       </div>
 
-      <div className="top-bar__user">
-        <span className="top-bar__name">
-          <UserIcon />
-          {user?.name}
-        </span>
-        <Button variant="outline" onClick={signOut}>
-          გამოსვლა
-        </Button>
-      </div>
+            <div className="top-bar__user">
+              {user ? (
+                <>
+                <span className="top-bar__name">
+                 <UserIcon />
+                  {user.name}
+                </span>
+                <Button variant="outline" onClick={signOut}>
+                  გამოსვლა
+                </Button>
+                </>
+            ) : (
+                <Link to="/login" className="button button--outline">
+                  შესვლა
+                </Link>
+               )}
+              </div>
     </header>
   )
 }
