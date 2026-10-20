@@ -9,11 +9,12 @@ export function useCategory(slug) {
   })
 }
 
-export function useProducts(params) {
+export function useProducts(params, { enabled = true } = {}) {
   return useQuery({
     queryKey: ['products', params],
     queryFn: ({ signal }) => catalogService.getProducts(params, signal),
     placeholderData: keepPreviousData,
+    enabled,
   })
 }
 

@@ -10,10 +10,13 @@ export const SORT_OPTIONS = [
   { value: 'title-asc', label: 'სახელით (ა–ჰ)' },
 ]
 
-export function toApiParams(searchParams) {
+const BASE_KEYS = ['q', 'sort', 'page', 'minPrice', 'maxPrice']
+
+export function toApiParams(searchParams, filterKeys = []) {
+  const allowed = new Set([...BASE_KEYS, ...filterKeys])
   const params = { category: CATEGORY_SLUG, limit: String(PAGE_SIZE) }
   for (const [key, value] of searchParams) {
-    if (value) params[key] = value
+    if (value && allowed.has(key)) params[key] = value
   }
   return params
 }
