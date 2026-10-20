@@ -49,8 +49,7 @@ export default function CatalogToolbar({ total }) {
           ))}
         </select>
       </label>
-
-            <p className="catalog-toolbar__count">{total != null ? `${total} პროდუქტი` : ''}</p>
+      <p className="catalog-toolbar__count">{total != null ? `${total} პროდუქტი` : ''}</p>
     </div>
   )
 }
