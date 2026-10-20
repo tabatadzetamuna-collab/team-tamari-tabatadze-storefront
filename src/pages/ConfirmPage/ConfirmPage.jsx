@@ -52,7 +52,10 @@ export default function ConfirmPage() {
     setNotice(null)
     try {
       const { order } = await orderService.confirm(orderId, code)
-      queryClient.setQueryData(['cart', user?.id], { items: [], totalQty: 0, subtotal: 0, currency: 'GEL' })
+      queryClient.setQueryData(['cart', user?.id], (prev) =>
+        prev ? { ...prev, items: [], totalQty: 0, subtotal: 0 } : prev
+      )
+      queryClient.invalidateQueries({ queryKey: ['cart', user?.id] })
       queryClient.removeQueries({ queryKey: ['checkout'] })
       queryClient.setQueryData(['order', orderId], { order })
       goToOrder()
