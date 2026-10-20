@@ -11,6 +11,9 @@ import ProfileLayout from './features/profile/ProfileLayout/ProfileLayout'
 import AccountPage from './pages/AccountPage/AccountPage'
 import AddressesPage from './pages/AddressesPage/AddressesPage'
 import CartPage from './pages/CartPage/CartPage'
+import CheckoutPage from './pages/CheckoutPage/CheckoutPage'
+import ConfirmPage from './pages/ConfirmPage/ConfirmPage'
+import OrderPage from './pages/OrderPage/OrderPage'
 
 export default function App() {
   return (
@@ -33,6 +36,9 @@ export default function App() {
         </Route>
 
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/checkout/confirm/:orderId" element={<ConfirmPage />} />
+        <Route path="/orders/:id" element={<OrderPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

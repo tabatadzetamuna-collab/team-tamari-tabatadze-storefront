@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { isValidCardNumber, isValidExpiry } from './card'
 
 const email = z
   .string()
@@ -46,7 +47,7 @@ export const newPasswordSchema = z
   })
 export const profileSchema = z
   .object({
-    name: z.string().trim().min(2, 'სახელი უნდა იყოს მინიმუმ 2 სიმბოლო'),
+    name: z.string().trim().min(2, 'სახელი უნდა შეიცავდეს მინიმუმ 2 სიმბოლოს'),
     email: z.string().trim().min(1, 'შეიყვანე ელფოსტა').email('ელფოსტა არასწორია'),
     newPassword: z.string(),
     confirmNewPassword: z.string(),
@@ -83,4 +84,22 @@ export const addressSchema = z.object({
   city: z.string().trim().min(2, 'მინიმუმ 2 სიმბოლო'),
   address: z.string().trim().min(5, 'მინიმუმ 5 სიმბოლო'),
   isDefault: z.boolean(),
+})
+export const checkoutSchema = z.object({
+  shipping: z.object({
+    fullName: z.string().trim().min(2, 'მინიმუმ 2 სიმბოლო'),
+    phone: z
+      .string()
+      .trim()
+      .min(9, 'ტელეფონი: 9–20 სიმბოლო')
+      .max(20, 'ტელეფონი: 9–20 სიმბოლო'),
+    city: z.string().trim().min(1, 'შეიყვანე ქალაქი'),
+    address: z.string().trim().min(5, 'მინიმუმ 5 სიმბოლო'),
+  }),
+  card: z.object({
+    number: z.string().refine(isValidCardNumber, 'ბარათის ნომერი არასწორია'),
+    holder: z.string().trim().min(2, 'მინიმუმ 2 სიმბოლო'),
+    expiry: z.string().refine(isValidExpiry, 'ვადა არასწორია ან გასულია'),
+    cvc: z.string().regex(/^\d{3,4}$/, '3–4 ციფრი'),
+  }),
 })
