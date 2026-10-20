@@ -22,7 +22,7 @@ export default function SessionProvider({ children }) {
       })
       .catch((error) => {
         if (ignore) return
-        if (error.status === 401) clearToken() // ტოკენი აღარ ვარგა
+        if (error.status === 401) clearToken()
         setUser(null)
         setStatus('signedOut')
       })
@@ -64,9 +64,11 @@ export default function SessionProvider({ children }) {
     setStatus('signedOut')
   }, [])
 
+  const updateUser = useCallback((nextUser) => setUser(nextUser), [])
+
   const value = useMemo(
-    () => ({ status, user, expiredNotice, signIn, signUp, signOut }),
-    [status, user, expiredNotice, signIn, signUp, signOut]
+    () => ({ status, user, expiredNotice, signIn, signUp, signOut, updateUser }),
+    [status, user, expiredNotice, signIn, signUp, signOut, updateUser]
   )
 
   return <SessionContext value={value}>{children}</SessionContext>
