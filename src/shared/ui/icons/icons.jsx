@@ -112,3 +112,12 @@ export function TrashIcon() {
     </svg>
   )
 }
+export function CartIcon() {
+  return (
+    <svg {...base}>
+      <path d="M3 4h2l2.4 11h11l2-8H6.2" />
+      <circle cx="9" cy="20" r="1.4" />
+      <circle cx="18" cy="20" r="1.4" />
+    </svg>
+  )
+}

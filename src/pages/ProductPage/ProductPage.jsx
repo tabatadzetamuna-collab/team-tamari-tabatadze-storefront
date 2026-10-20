@@ -6,6 +6,7 @@ import ProductCard from '../../shared/ui/ProductCard/ProductCard'
 import EmptyState from '../../shared/ui/EmptyState/EmptyState'
 import { useProduct } from '../../features/catalog/useCatalogQueries'
 import { formatPrice } from '../../shared/lib/formatPrice'
+import AddToCartButton from '../../features/cart/AddToCartButton'
 import './ProductPage.css'
 
 export default function ProductPage() {
@@ -87,6 +88,7 @@ export default function ProductPage() {
               <span>{warrantyMonths} თვე</span>
             </li>
           </ul>
+          <AddToCartButton product={product} />
         </div>
       </div>
 
