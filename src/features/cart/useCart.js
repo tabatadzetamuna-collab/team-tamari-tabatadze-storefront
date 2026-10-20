@@ -7,9 +7,11 @@ export function useCart() {
   return useQuery({
     queryKey: ['cart', user?.id],
     queryFn: () => cartService.get(),
-    enabled: status === 'signedIn', 
+    enabled: status === 'signedIn',
   })
 }
+
+const CART_SCOPE = { id: 'cart' }
 
 export function useCartMutations() {
   const queryClient = useQueryClient()
@@ -22,17 +24,20 @@ export function useCartMutations() {
   }
 
   const add = useMutation({
+    scope: CART_SCOPE,
     mutationFn: ({ productId, qty }) => cartService.add(productId, qty),
     onSuccess: apply,
   })
 
   const update = useMutation({
+    scope: CART_SCOPE,
     mutationFn: ({ itemId, qty }) => cartService.update(itemId, qty),
     onSuccess: apply,
   })
 
   const remove = useMutation({
-    mutationFn: (itemId) => cartService.remove(itemId),
+    scope: CART_SCOPE,
+    mutationFn: ({ itemId }) => cartService.remove(itemId),
     onSuccess: apply,
   })
 
