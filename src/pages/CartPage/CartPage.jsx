@@ -29,16 +29,14 @@ export default function CartPage() {
   async function removeItem(item) {
     setLineError(item.id, null)
     try {
-      await remove.mutateAsync(item.id)
+      await remove.mutateAsync({ itemId: item.id })
     } catch (error) {
       setLineError(item.id, cartErrorText(error))
       if (error.code === 'CART_ITEM_NOT_FOUND') refetch()
     }
   }
 
-  const isPendingLine = (itemId) =>
-    (update.isPending && update.variables?.itemId === itemId) ||
-    (remove.isPending && remove.variables === itemId)
+  const busy = update.isPending || remove.isPending
 
   if (isPending) {
     return (
@@ -76,7 +74,9 @@ export default function CartPage() {
 
   return (
     <section className="cart-page">
-      <h1 className="cart-page__title">კალათა</h1>
+      <h1 className="cart-page__title">
+        კალათა <span className="cart-page__count">{cart.totalQty} ნივთი</span>
+      </h1>
 
       <div className="cart-page__layout">
         <ul className="cart-page__list">
@@ -84,7 +84,7 @@ export default function CartPage() {
             <CartLine
               key={item.id}
               item={item}
-              pending={isPendingLine(item.id)}
+              pending={busy}
               error={lineErrors[item.id]}
               onChangeQty={(qty) => changeQty(item, qty)}
               onRemove={() => removeItem(item)}
@@ -104,7 +104,7 @@ export default function CartPage() {
           </p>
 
           <Button disabled={hasStockProblem} onClick={() => navigate('/checkout')}>
-            ჩექაუთზე გადასვლა
+            შეკვეთის გაფორმება
           </Button>
           {hasStockProblem && (
             <p className="cart-summary__hint">ჯერ რაოდენობა მარაგს შეუსაბამე</p>
