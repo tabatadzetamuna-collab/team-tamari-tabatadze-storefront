@@ -19,11 +19,7 @@ export default function TopBar() {
 
         <nav aria-label="მთავარი მენიუ">
           <ul className="top-bar__nav">
-            <li>
-              <NavLink to="/" end className="top-bar__nav-link">
-                მთავარი
-              </NavLink>
-            </li>
+
             <li>
               <NavLink to="/catalog" className="top-bar__nav-link">
                 მაღაზია
