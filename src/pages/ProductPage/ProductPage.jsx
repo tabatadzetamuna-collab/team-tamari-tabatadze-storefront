@@ -2,12 +2,19 @@ import { useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import ProductGallery from '../../features/catalog/ProductGallery/ProductGallery'
 import SpecsTable from '../../features/catalog/SpecsTable/SpecsTable'
+import AddToCartButton from '../../features/cart/AddToCartButton'
 import ProductCard from '../../shared/ui/ProductCard/ProductCard'
 import EmptyState from '../../shared/ui/EmptyState/EmptyState'
+import { MessageIcon } from '../../shared/ui/icons/icons'
 import { useProduct } from '../../features/catalog/useCatalogQueries'
 import { formatPrice } from '../../shared/lib/formatPrice'
-import AddToCartButton from '../../features/cart/AddToCartButton'
 import './ProductPage.css'
+
+function stockInfo(inStock, stock) {
+  if (!inStock) return { text: 'ამოწურულია', className: 'product-page__stock--out' }
+  if (stock <= 5) return { text: `დარჩა მხოლოდ ${stock}`, className: 'product-page__stock--low' }
+  return { text: 'მარაგშია', className: 'product-page__stock--ok' }
+}
 
 export default function ProductPage() {
   const { slug } = useParams()
@@ -17,6 +24,15 @@ export default function ProductPage() {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [slug])
+
+  const title = product?.title
+  useEffect(() => {
+    if (!title) return
+    document.title = `${title} — Cyber`
+    return () => {
+      document.title = 'Cyber'
+    }
+  }, [title])
 
   if (isPending) {
     return (
@@ -35,24 +51,27 @@ export default function ProductPage() {
     if (error.status === 404) {
       return (
         <EmptyState
-          title="პროდუქტი არ მოიძებნა"
-          actionLabel="დაბრუნება მაღაზიაში"
+          title="პროდუქტი ვერ მოიძებნა"
+          actionLabel="კატალოგში დაბრუნება"
           onAction={() => navigate('/catalog')}
         />
       )
     }
     return (
-      <EmptyState role="alert" title="ვერ ჩაიტვირთა" actionLabel="ხელახლა ცდა" onAction={() => refetch()} />
+      <EmptyState role="alert" title="ვერ ჩაიტვირთა" actionLabel="თავიდან ცდა" onAction={() => refetch()} />
     )
   }
 
-  const { title, brand, images, price, oldPrice, discountPercent, inStock, stock, warrantyMonths, specs, related } =
-    product
+  const {
+    brand, images, price, oldPrice, discountPercent, rating, reviewsCount,
+    inStock, stock, warrantyMonths, description, specs, category, related,
+  } = product
+  const stockState = stockInfo(inStock, stock)
 
   return (
     <article className="product-page">
       <nav className="product-page__breadcrumb" aria-label="ნავიგაცია">
-        <Link to="/">მთავარი</Link> / <Link to="/catalog">მაღაზია</Link> / <span>{title}</span>
+        <Link to="/">მთავარი</Link> / <Link to="/catalog">{category.name}</Link> / <span>{title}</span>
       </nav>
 
       <div className="product-page__top">
@@ -64,7 +83,15 @@ export default function ProductPage() {
             <h1 className="product-page__title">{title}</h1>
           </div>
 
-          <p className="product-page__price">{formatPrice(price)}</p>
+          <div className="product-page__price-row">
+            <span className="product-page__price">{formatPrice(price)}</span>
+            <span className="product-page__pill product-page__pill--rating">
+              <span aria-hidden="true">★</span> {rating}
+            </span>
+            <span className="product-page__pill">
+              <MessageIcon /> {reviewsCount} შეფასება
+            </span>
+          </div>
 
           {oldPrice && (
             <p className="product-page__old-price">
@@ -79,18 +106,26 @@ export default function ProductPage() {
           <ul className="product-page__facts">
             <li>
               <span className="product-page__fact-label">მარაგი</span>
-              <span className={inStock ? 'product-page__in-stock' : 'product-page__out-of-stock'}>
-                {inStock ? `მარაგშია: ${stock} ცალი` : 'ამოწურულია'}
-              </span>
+              <span className={stockState.className}>{stockState.text}</span>
             </li>
-            <li>
-              <span className="product-page__fact-label">გარანტია</span>
-              <span>{warrantyMonths} თვე</span>
-            </li>
+            {warrantyMonths > 0 && (
+              <li>
+                <span className="product-page__fact-label">გარანტია</span>
+                <span>{warrantyMonths} თვე</span>
+              </li>
+            )}
           </ul>
-          <AddToCartButton product={product} />
+
+          <AddToCartButton key={slug} product={product} />
         </div>
       </div>
+
+      <section className="product-page__section" aria-labelledby="description-title">
+        <h2 id="description-title" className="product-page__section-title">
+          <span>აღწერა</span>
+        </h2>
+        <p className="product-page__description">{description}</p>
+      </section>
 
       <section className="product-page__section" aria-labelledby="specs-title">
         <h2 id="specs-title" className="product-page__section-title">

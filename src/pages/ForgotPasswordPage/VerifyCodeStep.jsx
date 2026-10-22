@@ -52,7 +52,7 @@ export default function VerifyCodeStep({ email, onVerified, onStartOver }) {
   if (tooManyAttempts) {
     return (
       <>
-        <Alert variant="error">ძალიან ბევრი არასწორი მცდელობა. მოითხოვე ახალი კოდი.</Alert>
+        <Alert variant="error">ბევრი არასწორი მცდელობა, ლიმიტი ამოიწურა. მოითხოვე ახალი კოდი.</Alert>
         <Button onClick={onStartOver}>ახალი კოდის მოთხოვნა</Button>
       </>
     )

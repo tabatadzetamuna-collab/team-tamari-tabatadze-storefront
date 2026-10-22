@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import RequireSession from './session/RequireSession'
 import ShopLayout from './layouts/ShopLayout/ShopLayout'
-import MainPage from './pages/MainPage/MainPage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import RegisterPage from './pages/RegisterPage/RegisterPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage/ForgotPasswordPage'
@@ -18,6 +17,8 @@ import OrderPage from './pages/OrderPage/OrderPage'
 export default function App() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/catalog" replace />} />
+
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />
@@ -28,8 +29,6 @@ export default function App() {
       </Route>
 
       <Route element={<RequireSession><ShopLayout /></RequireSession>}>
-        <Route path="/" element={<MainPage />} />
-
         <Route path="/profile" element={<ProfileLayout />}>
           <Route index element={<AccountPage />} />
           <Route path="addresses" element={<AddressesPage />} />

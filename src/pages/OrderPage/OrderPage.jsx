@@ -76,7 +76,7 @@ export default function OrderPage() {
         </dl>
 
         <Link to="/catalog" className="button">
-          შოპინგის გაგრძელება
+          ყიდვის გაგრძელება
         </Link>
       </div>
 
