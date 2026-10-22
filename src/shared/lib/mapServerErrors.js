@@ -11,7 +11,7 @@ export function mapFieldErrors(error, setError, fieldNames) {
 }
 
 const MESSAGES = {
-  TOO_MANY_ATTEMPTS: 'ბევრი მცდელობა იყო. ცოტა ხანში სცადე.',
+  TOO_MANY_ATTEMPTS: 'ცდების ლიმიტი ამოიწურა, სცადე მოგვიანებით.',
   INVALID_RESET_CODE: 'კოდი არასწორია ან ვადაგასულია.',
   RESET_TOKEN_USED: 'აღდგენის ბმული უკვე გამოყენებულია. მოითხოვე ახალი კოდი.',
 }

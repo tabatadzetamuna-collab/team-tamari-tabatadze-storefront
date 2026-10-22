@@ -118,11 +118,11 @@ export default function ConfirmPage() {
 
         {notice && <Alert variant="success">{notice}</Alert>}
         {banner === 'tooMany' && (
-          <Alert variant="error">ძალიან ბევრი არასწორი მცდელობა. მოითხოვე ახალი კოდი.</Alert>
+          <Alert variant="error">ბევრი არასწორი მცდელობა, ლიმიტი ამოიწურა. მოითხოვე ახალი კოდი.</Alert>
         )}
         {banner === 'stock' && (
           <Alert variant="error">
-            ბოლო ნივთი სხვამ შეიძინა. <Link to="/cart">კალათაში დაბრუნება</Link>
+          საკმარისი რაოდენობა არ არის<Link to="/cart">კალათაში დაბრუნება</Link>
           </Alert>
         )}
         {otherError && <Alert variant="error">{banner}</Alert>}
