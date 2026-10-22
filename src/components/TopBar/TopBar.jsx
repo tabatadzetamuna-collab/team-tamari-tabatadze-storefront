@@ -3,6 +3,7 @@ import { useSession } from '../../session/useSession'
 import { useCart } from '../../features/cart/useCart'
 import Button from '../../shared/ui/Button/Button'
 import { UserIcon, CartIcon } from '../../shared/ui/icons/icons'
+import LanguageSwitcher from '../../shared/ui/LanguageSwitcher/LanguageSwitcher'
 import './TopBar.css'
 
 export default function TopBar() {
@@ -30,6 +31,7 @@ export default function TopBar() {
       </div>
 
       <div className="top-bar__user">
+         <LanguageSwitcher />
         <Link to="/cart" className="top-bar__cart" aria-label={`კალათა, ${count} ნივთი`}>
           <CartIcon />
           {count > 0 && (
