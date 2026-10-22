@@ -1,0 +1,66 @@
+{
+  "language": {
+    "label": "ენა",
+    "ka": "ქართული",
+    "en": "English"
+  },
+  "nav": {
+    "store": "მაღაზია",
+    "mainMenu": "მთავარი მენიუ",
+    "homePage": "მთავარი გვერდი"
+  },
+  "header": {
+    "cart_one": "კალათა, {{count}} ნივთი",
+    "cart_other": "კალათა, {{count}} ნივთი",
+    "login": "შესვლა",
+    "logout": "გამოსვლა"
+  },
+  "common": {
+    "loadFailed": "ვერ ჩაიტვირთა",
+    "retry": "ხელახლა ცდა",
+    "checkConnection": "შეამოწმე ინტერნეტი და სცადე თავიდან."
+  },
+  "catalog": {
+    "title": "მაღაზია",
+    "count_one": "{{count}} პროდუქტი",
+    "count_other": "{{count}} პროდუქტი",
+    "range": "ნაჩვენებია {{from}}–{{to}}, სულ {{total}}",
+    "emptyTitle": "ვერაფერი მოიძებნა",
+    "emptyText": "სცადე სხვა ფილტრები ან საძიებო სიტყვა.",
+    "clearFilters": "ფილტრების გასუფთავება",
+    "search": "ძებნა",
+    "searchPlaceholder": "მოძებნე ტელეფონი...",
+    "sortBy": "დალაგება",
+    "sort": {
+      "newest": "ახალი",
+      "oldest": "ძველი",
+      "price-asc": "ფასი: ზრდადობით",
+      "price-desc": "ფასი: კლებადობით",
+      "rating-desc": "რეიტინგით",
+      "popular": "პოპულარული",
+      "title-asc": "სახელით (ა–ჰ)"
+    },
+    "filters": {
+      "title": "ფილტრები",
+      "label": "ფილტრები",
+      "clear": "გასუფთავება",
+      "all": "ყველა",
+      "loadFailed": "ფილტრები ვერ ჩაიტვირთა.",
+      "minPrice": "მინიმალური ფასი",
+      "maxPrice": "მაქსიმალური ფასი",
+      "from": "{{value}}-დან",
+      "to": "{{value}}-მდე"
+    }
+  },
+  "pagination": {
+    "label": "გვერდები",
+    "prev": "წინა",
+    "next": "შემდეგი",
+    "page": "გვერდი {{page}}"
+  },
+  "product": {
+    "inStock": "მარაგშია",
+    "outOfStock": "ამოწურულია",
+    "oldPrice": "ძველი ფასი: "
+  }
+}
