@@ -61,6 +61,36 @@
   "product": {
     "inStock": "მარაგშია",
     "outOfStock": "ამოწურულია",
-    "oldPrice": "ძველი ფასი: "
+    "lowStock": "დარჩა მხოლოდ {{count}}",
+    "oldPrice": "ძველი ფასი: ",
+    "stock": "მარაგი",
+    "warranty": "გარანტია",
+    "warrantyMonths_one": "{{count}} თვე",
+    "warrantyMonths_other": "{{count}} თვე",
+    "reviews_one": "{{count}} შეფასება",
+    "reviews_other": "{{count}} შეფასება",
+    "description": "აღწერა",
+    "specs": "მახასიათებლები",
+    "related": "მსგავსი პროდუქტები",
+    "notFound": "პროდუქტი ვერ მოიძებნა",
+    "backToCatalog": "კატალოგში დაბრუნება",
+    "tryAgain": "თავიდან ცდა",
+    "imageAlt": "{{title}} — სურათი {{index}} / {{total}}",
+    "home": "მთავარი",
+    "breadcrumb": "ნავიგაცია"
+  },
+  "cart": {
+    "quantity": "რაოდენობა",
+    "decrease": "რაოდენობის შემცირება",
+    "increase": "რაოდენობის გაზრდა",
+    "add": "კალათაში დამატება",
+    "added": "დაემატა კალათაში",
+    "view": "კალათის ნახვა",
+    "errors": {
+      "insufficient": "საკმარისი რაოდენობა არ არის",
+      "onlyLeft": "მარაგში მხოლოდ {{count}} ცალია",
+      "outOfStock": "ამოწურულია",
+      "notFound": "პროდუქტი აღარ არსებობს"
+    }
   }
 }

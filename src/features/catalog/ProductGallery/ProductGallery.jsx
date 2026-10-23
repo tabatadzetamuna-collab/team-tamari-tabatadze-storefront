@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import './ProductGallery.css'
 
 export default function ProductGallery({ images, title }) {
+  const { t } = useTranslation()
   const [active, setActive] = useState(0)
   const total = images.length
 
@@ -9,7 +11,7 @@ export default function ProductGallery({ images, title }) {
     <div className="product-gallery">
       <img
         src={images[active]}
-        alt={`${title} — სურათი ${active + 1} / ${total}`}
+        alt={t('product.imageAlt', { title, index: active + 1, total })}
         className="product-gallery__main"
       />
 
@@ -20,7 +22,7 @@ export default function ProductGallery({ images, title }) {
               <button
                 type="button"
                 className="product-gallery__thumb"
-                aria-label={`${title} — სურათი ${index + 1} / ${total}`}
+                aria-label={t('product.imageAlt', { title, index: index + 1, total })}
                 aria-current={index === active ? 'true' : undefined}
                 onClick={() => setActive(index)}
               >
