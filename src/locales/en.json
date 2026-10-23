@@ -79,13 +79,27 @@
     "home": "Home",
     "breadcrumb": "Breadcrumb"
   },
-  "cart": {
+    "cart": {
+    "title": "Cart",
+    "items_one": "{{count}} item",
+    "items_other": "{{count}} items",
     "quantity": "Quantity",
+    "quantityFor": "Quantity: {{title}}",
     "decrease": "Decrease quantity",
     "increase": "Increase quantity",
+    "remove": "Remove: {{title}}",
+    "lineTotal_one": "Subtotal ({{count}} item)",
+    "lineTotal_other": "Subtotal ({{count}} items)",
     "add": "Add to cart",
     "added": "Added to cart",
     "view": "View cart",
+    "summary": "Order summary",
+    "summaryLabel": "Order total",
+    "itemsLabel": "Items",
+    "total": "Total",
+    "checkout": "Checkout",
+    "fixStock": "Adjust quantities to match stock first",
+    "empty": "Your cart is empty",
     "errors": {
       "insufficient": "Not enough in stock",
       "onlyLeft": "Only {{count}} left in stock",

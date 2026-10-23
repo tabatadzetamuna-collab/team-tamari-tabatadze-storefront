@@ -79,13 +79,27 @@
     "home": "მთავარი",
     "breadcrumb": "ნავიგაცია"
   },
-  "cart": {
+    "cart": {
+    "title": "კალათა",
+    "items_one": "{{count}} ნივთი",
+    "items_other": "{{count}} ნივთი",
     "quantity": "რაოდენობა",
+    "quantityFor": "რაოდენობა: {{title}}",
     "decrease": "რაოდენობის შემცირება",
     "increase": "რაოდენობის გაზრდა",
+    "remove": "წაშლა: {{title}}",
+    "lineTotal_one": "ჯამი ({{count}} ცალი)",
+    "lineTotal_other": "ჯამი ({{count}} ცალი)",
     "add": "კალათაში დამატება",
     "added": "დაემატა კალათაში",
     "view": "კალათის ნახვა",
+    "summary": "შეკვეთის შეჯამება",
+    "summaryLabel": "შეკვეთის ჯამი",
+    "itemsLabel": "ნივთები",
+    "total": "სულ",
+    "checkout": "შეკვეთის გაფორმება",
+    "fixStock": "ჯერ რაოდენობა მარაგს შეუსაბამე",
+    "empty": "კალათა ცარიელია",
     "errors": {
       "insufficient": "საკმარისი რაოდენობა არ არის",
       "onlyLeft": "მარაგში მხოლოდ {{count}} ცალია",
