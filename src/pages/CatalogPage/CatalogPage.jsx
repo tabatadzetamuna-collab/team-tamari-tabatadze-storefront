@@ -9,9 +9,11 @@ import CatalogToolbar from '../../features/catalog/CatalogToolbar/CatalogToolbar
 import { toApiParams, withParam } from '../../features/catalog/catalogParams'
 import { useCategory, useProducts } from '../../features/catalog/useCatalogQueries'
 import { CATEGORY_SLUG, PAGE_SIZE } from '../../config'
+import { useTranslation } from 'react-i18next'
 import './CatalogPage.css'
 
 export default function CatalogPage() {
+  const { t, i18n } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
   const category = useCategory(CATEGORY_SLUG)
 
@@ -51,19 +53,19 @@ export default function CatalogPage() {
       return (
         <EmptyState
           role="alert"
-          title="ვერ ჩაიტვირთა"
-          actionLabel="ხელახლა ცდა"
+          title={t('common.loadFailed')}
+          actionLabel={t('common.retry')}
           onAction={() => products.refetch()}
         >
-          შეამოწმე ინტერნეტი და სცადე თავიდან.
+          {t('common.checkConnection')}
         </EmptyState>
       )
     }
 
     if (data.items.length === 0) {
       return (
-        <EmptyState title="ვერაფერი მოიძებნა" actionLabel="ფილტრების გასუფთავება" onAction={clearAll}>
-          სცადე სხვა ფილტრები ან საძიებო სიტყვა.
+        <EmptyState title={t('catalog.emptyTitle')} actionLabel={t('catalog.clearFilters')} onAction={clearAll}>
+          {t('catalog.emptyText')}
         </EmptyState>
       )
     }
@@ -85,7 +87,7 @@ export default function CatalogPage() {
         </ul>
 
         <p className="catalog-page__range">
-          ნაჩვენებია {from}–{to}, სულ {data.total}
+          {t('catalog.range', { from, to, total: data.total })}
         </p>
 
         <Pagination page={data.page} totalPages={data.totalPages} onChange={handlePageChange} />
@@ -95,14 +97,16 @@ export default function CatalogPage() {
 
   return (
     <section className="catalog-page">
-      <h1 className="catalog-page__title">{category.data?.name ?? 'მაღაზია'}</h1>
+      <h1 className="catalog-page__title">
+        {(i18n.language === 'en' ? category.data?.nameEn : category.data?.name) ?? t('catalog.title')}
+      </h1>
 
       <div className="catalog-page__layout">
         {category.isError && (
           <p role="alert" className="catalog-page__filters-error">
-            ფილტრები ვერ ჩაიტვირთა.{' '}
+            {t('catalog.filters.loadFailed')}{' '}
             <button type="button" onClick={() => category.refetch()}>
-              ხელახლა ცდა
+              {t('common.retry')}
             </button>
           </p>
         )}

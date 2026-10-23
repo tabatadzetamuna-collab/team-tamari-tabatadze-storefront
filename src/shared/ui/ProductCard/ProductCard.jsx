@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
 import { formatPrice } from '../../lib/formatPrice'
+import { useTranslation } from 'react-i18next'
 import './ProductCard.css'
 
 export default function ProductCard({ product }) {
+  const { t } = useTranslation()
   const { slug, title, brand, image, price, oldPrice, discountPercent, rating, reviewsCount, inStock } =
     product
 
@@ -19,7 +21,7 @@ export default function ProductCard({ product }) {
             {formatPrice(price)}
             {oldPrice && (
               <s className="product-card__price-old">
-                <span className="visually-hidden">ძველი ფასი: </span>
+                <span className="visually-hidden">{t('product.oldPrice')} </span>
                 {formatPrice(oldPrice)}
               </s>
             )}
@@ -35,7 +37,7 @@ export default function ProductCard({ product }) {
         <p className="product-card__brand">{brand}</p>
 
         <p className={`product-card__stock ${inStock ? '' : 'product-card__stock--out'}`}>
-          {inStock ? 'მარაგშია' : 'ამოწურულია'}
+          {inStock ? t('product.inStock') : t('product.outOfStock')}
         </p>
       </Link>
     </article>

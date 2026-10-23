@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import './Pagination.css'
 
 function getPages(page, totalPages) {
@@ -14,17 +15,18 @@ function getPages(page, totalPages) {
 }
 
 export default function Pagination({ page, totalPages, onChange }) {
+  const { t } = useTranslation()
   if (totalPages <= 1) return null
 
   return (
-    <nav className="pagination" aria-label="გვერდები">
+    <nav className="pagination" aria-label={t('pagination.label')}>
       <button
         type="button"
         className="pagination__button"
         disabled={page === 1}
         onClick={() => onChange(page - 1)}
       >
-        წინა
+        {t('pagination.prev')}
       </button>
 
       <ul className="pagination__list">
@@ -39,7 +41,7 @@ export default function Pagination({ page, totalPages, onChange }) {
                 type="button"
                 className="pagination__button"
                 aria-current={item === page ? 'page' : undefined}
-                aria-label={`გვერდი ${item}`}
+                aria-label={t('pagination.page', { page: item })}
                 onClick={() => onChange(item)}
               >
                 {item}
@@ -55,7 +57,7 @@ export default function Pagination({ page, totalPages, onChange }) {
         disabled={page === totalPages}
         onClick={() => onChange(page + 1)}
       >
-        შემდეგი
+        {t('pagination.next')}
       </button>
     </nav>
   )
