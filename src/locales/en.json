@@ -106,5 +106,31 @@
       "outOfStock": "Out of stock",
       "notFound": "This product no longer exists"
     }
+  },
+    "checkout": {
+    "title": "Checkout",
+    "shipping": "Shipping",
+    "savedAddresses": "Saved addresses",
+    "phoneValue": "Phone: {{phone}}",
+    "fullName": "Recipient",
+    "phone": "Phone",
+    "city": "City",
+    "address": "Address",
+    "payment": "Card payment",
+    "cardNumber": "Card number",
+    "cardHolder": "Cardholder name",
+    "cardExpiry": "Expiry (MM/YY)",
+    "cardCvc": "CVC",
+    "paymentFailed": "Payment failed",
+    "cardDeclined": "Card declined, try another card",
+    "stockError": "Some products are no longer available in the requested quantity.",
+    "backToCart": "Back to cart",
+    "summary": "Order summary",
+    "products": "Products",
+    "shippingFee": "Shipping",
+    "free": "Free",
+    "untilFree": "Add {{amount}} more for free shipping",
+    "total": "Total",
+    "pay": "Pay"
   }
 }

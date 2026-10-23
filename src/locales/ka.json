@@ -106,5 +106,31 @@
       "outOfStock": "ამოწურულია",
       "notFound": "პროდუქტი აღარ არსებობს"
     }
+  },
+   "checkout": {
+    "title": "შეკვეთის გაფორმება",
+    "shipping": "მიწოდება",
+    "savedAddresses": "შენახული მისამართები",
+    "phoneValue": "ტელეფონი: {{phone}}",
+    "fullName": "მიმღები",
+    "phone": "ტელეფონი",
+    "city": "ქალაქი",
+    "address": "მისამართი",
+    "payment": "ბარათით გადახდა",
+    "cardNumber": "ბარათის ნომერი",
+    "cardHolder": "ბარათის მფლობელი",
+    "cardExpiry": "ვადა (MM/YY)",
+    "cardCvc": "CVC",
+    "paymentFailed": "გადახდა ვერ მოხერხდა",
+    "cardDeclined": "ბარათი უარყოფილია, სცადე სხვა ბარათი",
+    "stockError": "ზოგი პროდუქტი აღარ არის საკმარისი რაოდენობით.",
+    "backToCart": "კალათაში დაბრუნება",
+    "summary": "შეკვეთის შეჯამება",
+    "products": "პროდუქტები",
+    "shippingFee": "მიწოდება",
+    "free": "უფასო",
+    "untilFree": "კიდევ {{amount}} და მიწოდება უფასოა",
+    "total": "სულ",
+    "pay": "გადახდა"
   }
 }
