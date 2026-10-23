@@ -1,6 +1,8 @@
 import { useSearchParams } from 'react-router-dom'
 import { readList, withParam } from '../catalogParams'
 import { CheckboxFilter, RadioFilter, ColorFilter, RangeFilter } from './FilterControls'
+import { useTranslation } from 'react-i18next'
+import { localizeFilters } from '../filterLabels'
 import './FilterPanel.css'
 
 const CONTROLS = {
@@ -11,6 +13,8 @@ const CONTROLS = {
 
 export default function FilterPanel({ filters }) {
   const [searchParams, setSearchParams] = useSearchParams()
+  const { t, i18n } = useTranslation()
+  const localized = localizeFilters(filters, i18n.language)
 
   function setList(key, values) {
     setSearchParams(withParam(searchParams, key, values))
@@ -32,17 +36,17 @@ export default function FilterPanel({ filters }) {
   }
 
   return (
-    <aside className="filter-panel" aria-label="ფილტრები">
+    <aside className="filter-panel" aria-label={t('catalog.filters.label')}>
       <div className="filter-panel__head">
-        <h2 className="filter-panel__title">ფილტრები</h2>
+        <h2 className="filter-panel__title">{t('catalog.filters.title')}</h2>
         {hasActive && (
           <button type="button" className="filter-panel__clear" onClick={clearAll}>
-            გასუფთავება
+            {t('catalog.filters.clear')}
           </button>
         )}
       </div>
 
-      {filters.map((filter) => {
+      {localized.map((filter) => {
         if (filter.type === 'range') {
           return (
             <RangeFilter
