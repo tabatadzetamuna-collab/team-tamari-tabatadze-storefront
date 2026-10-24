@@ -3,12 +3,12 @@ import { useQuery } from '@tanstack/react-query'
 import { useSession } from '../../session/useSession'
 import { orderService } from '../../shared/services/orderService'
 import EmptyState from '../../shared/ui/EmptyState/EmptyState'
-import { formatPrice } from '../../shared/lib/formatPrice'
+import { formatDate, formatPrice } from '../../shared/lib/formatPrice'
+import { useTranslation } from 'react-i18next'
 import './OrderPage.css'
 
-const dateFormatter = new Intl.DateTimeFormat('ka-GE', { dateStyle: 'long', timeStyle: 'short' })
-
 export default function OrderPage() {
+  const { t } = useTranslation()
   const { id } = useParams()
   const { user } = useSession()
   const { data, isPending, isError, error, refetch } = useQuery({
@@ -26,9 +26,9 @@ export default function OrderPage() {
 
   if (isError) {
     if (error.code === 'ORDER_NOT_FOUND') {
-      return <EmptyState title="შეკვეთა არ მოიძებნა" />
+      return <EmptyState title={t('order.notFound')} />
     }
-    return <EmptyState role="alert" title="ვერ ჩაიტვირთა" actionLabel="ხელახლა ცდა" onAction={() => refetch()} />
+    return <EmptyState role="alert" title={t('common.loadFailed')} actionLabel={t('common.retry')} onAction={() => refetch()} />
   }
 
   const { order } = data
@@ -37,8 +37,8 @@ export default function OrderPage() {
   if (order.status !== 'paid') {
     return (
       <section className="order-page">
-        <EmptyState title="გადახდა ჯერ არ დასრულებულა">
-          <Link to={`/checkout/confirm/${order.id}`}>კოდის შეყვანა</Link>
+        <EmptyState title={t('order.notPaid')}>
+          <Link to={`/checkout/confirm/${order.id}`}>{t('order.enterCode')}</Link>
         </EmptyState>
       </section>
     )
@@ -46,60 +46,58 @@ export default function OrderPage() {
 
   return (
     <section className="order-page">
-      <nav className="order-page__breadcrumb" aria-label="ნავიგაცია">
-        <Link to="/">მთავარი</Link> / <span>შეკვეთა</span>
+      <nav className="order-page__breadcrumb" aria-label={t('product.breadcrumb')}>
+        <Link to="/">{t('product.home')}</Link> / <span>{t('order.breadcrumb')}</span>
       </nav>
 
       <div className="order-success" role="status">
         <span className="order-success__icon" aria-hidden="true">✓</span>
-        <h1 className="order-success__title">მადლობა! შეკვეთა №{number} გადახდილია</h1>
+        <h1 className="order-success__title">{t('order.thanks', { number })}</h1>
 
         <dl className="order-success__details">
           <div>
-            <dt>გადახდა</dt>
+            <dt>{t('order.payment')}</dt>
             <dd>
               {order.payment.brand.toUpperCase()} •••• {order.payment.last4}
             </dd>
           </div>
           <div>
-            <dt>ელფოსტა</dt>
+            <dt>{t('order.email')}</dt>
             <dd>{user?.email}</dd>
           </div>
           <div>
-            <dt>თარიღი</dt>
-            <dd>{dateFormatter.format(new Date(order.paidAt ?? order.createdAt))}</dd>
+            <dt>{t('order.date')}</dt>
+            <dd>{formatDate(order.paidAt ?? order.createdAt)}</dd>
           </div>
           <div className="order-success__paid">
-            <dt>გადახდილი თანხა</dt>
+            <dt>{t('order.paid')}</dt>
             <dd>{formatPrice(order.total)}</dd>
           </div>
         </dl>
 
         <Link to="/catalog" className="button">
-          ყიდვის გაგრძელება
+          {t('order.continue')}
         </Link>
       </div>
 
-      {/* Figma: Order Detail */}
       <div className="order-detail">
         <div className="order-detail__head">
           <div>
             <p className="order-detail__number">#{number}</p>
             <p className="order-detail__meta">
-              {order.items.length} პროდუქტი · {dateFormatter.format(new Date(order.createdAt))}
+              {t('order.productsCount', { count: order.items.length })} · {formatDate(order.createdAt)}
             </p>
           </div>
           <p className="order-detail__total">{formatPrice(order.total)}</p>
         </div>
 
-        <h2 className="order-detail__title">პროდუქტები ({order.items.length})</h2>
-
+        <h2 className="order-detail__title">{t('order.productsTitle', { count: order.items.length })}</h2>
         <ul className="order-items">
           <li className="order-items__row order-items__row--head" aria-hidden="true">
-            <span>პროდუქტი</span>
-            <span>ფასი</span>
-            <span>რაოდენობა</span>
-            <span>ჯამი</span>
+            <span>{t('order.product')}</span>
+            <span>{t('order.price')}</span>
+            <span>{t('order.quantity')}</span>
+            <span>{t('order.lineTotal')}</span>
           </li>
           {order.items.map((item) => (
             <li key={`${item.slug}-${item.title}`} className="order-items__row">
@@ -116,23 +114,23 @@ export default function OrderPage() {
 
         <div className="order-detail__bottom">
           <div>
-            <h3 className="order-detail__subtitle">მიწოდების მისამართი</h3>
+            <h3 className="order-detail__subtitle">{t('order.shippingAddress')}</h3>
             <p className="order-detail__strong">{order.shipping.fullName}</p>
             <p>{order.shipping.city}, {order.shipping.address}</p>
-            <p>ტელეფონი: {order.shipping.phone}</p>
+            <p>{t('checkout.phoneValue', { phone: order.shipping.phone })}</p>
           </div>
 
           <div className="order-detail__sums">
             <p>
-              <span>პროდუქტები</span>
+              <span>{t('checkout.products')}</span>
               <span>{formatPrice(order.subtotal)}</span>
             </p>
             <p>
-              <span>მიწოდება</span>
-              <span>{order.shippingFee === 0 ? 'უფასო' : formatPrice(order.shippingFee)}</span>
+              <span>{t('checkout.shippingFee')}</span>
+              <span>{order.shippingFee === 0 ? t('checkout.free') : formatPrice(order.shippingFee)}</span>
             </p>
             <p className="order-detail__sum-total">
-              <span>სულ</span>
+              <span>{t('checkout.total')}</span>
               <span>{formatPrice(order.total)}</span>
             </p>
           </div>

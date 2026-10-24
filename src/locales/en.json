@@ -132,5 +132,38 @@
     "untilFree": "Add {{amount}} more for free shipping",
     "total": "Total",
     "pay": "Pay"
+  },
+  "confirm": {
+    "title": "Confirm payment",
+    "sent": "We sent a code to <strong>{{email}}</strong>. It's valid for 10 minutes.",
+    "codeLabel": "6-digit code",
+    "submit": "Confirm",
+    "invalidCode": "The code is invalid or has expired",
+    "tooMany": "Too many incorrect attempts. Request a new code.",
+    "stock": "Not enough in stock.",
+    "newCodeSent": "A new code has been sent",
+    "resend": "Resend code",
+    "resendIn": "Resend code ({{seconds}}s)",
+    "requestNew": "Request a new code"
+  },
+  "order": {
+    "breadcrumb": "Order",
+    "notFound": "Order not found",
+    "notPaid": "Payment isn't complete yet",
+    "enterCode": "Enter the code",
+    "thanks": "Thank you! Order #{{number}} is paid",
+    "payment": "Payment",
+    "email": "Email",
+    "date": "Date",
+    "paid": "Amount paid",
+    "continue": "Continue shopping",
+    "productsCount_one": "{{count}} product",
+    "productsCount_other": "{{count}} products",
+    "productsTitle": "Products ({{count}})",
+    "product": "Product",
+    "price": "Price",
+    "quantity": "Quantity",
+    "lineTotal": "Subtotal",
+    "shippingAddress": "Shipping address"
   }
 }
