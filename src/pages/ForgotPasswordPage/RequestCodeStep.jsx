@@ -10,8 +10,10 @@ import { MailIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
 import { authService } from '../../shared/services/authService'
 import { forgotSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
+import { useTranslation } from 'react-i18next'
 
 export default function RequestCodeStep({ onCodeSent }) {
+  const { t } = useTranslation()
   const [formError, setFormError] = useState(null)
 
   const {
@@ -42,12 +44,12 @@ export default function RequestCodeStep({ onCodeSent }) {
       {formError && <Alert variant="error">{formError}</Alert>}
 
       <fieldset className="forgot-form__fieldset" disabled={isSubmitting}>
-        <FormField id="email" label="ელფოსტა" hideLabel error={errors.email?.message}>
+        <FormField id="email" label={t('auth.email')} hideLabel error={errors.email?.message}>
           <Input
             id="email"
             type="email"
             autoComplete="email"
-            placeholder="შეიყვანე ელფოსტა"
+            placeholder={t('auth.emailPlaceholder')}
             icon={<MailIcon />}
             error={!!errors.email}
             {...register('email')}
@@ -56,10 +58,10 @@ export default function RequestCodeStep({ onCodeSent }) {
 
         <div className="forgot-form__actions">
           <Link to="/login" className="button button--secondary" aria-label="დაბრუნება შესვლაზე">
-            დაბრუნება
+            {t('auth.forgot.back')}
           </Link>
           <Button type="submit" loading={isSubmitting}>
-            კოდის მიღება <ArrowRightIcon />
+            {t('auth.forgot.getCode')} <ArrowRightIcon />
           </Button>
         </div>
       </fieldset>

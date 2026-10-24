@@ -196,5 +196,50 @@
     "invalidResetCode": "The code is invalid or has expired.",
     "resetTokenUsed": "This reset link has already been used. Request a new code.",
     "generic": "Something went wrong. Please try again."
+  },
+  "auth": {
+    "loading": "Loading…",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "namePlaceholder": "Enter your name",
+    "repeatPassword": "Repeat password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "passwordHint": "At least 8 characters, including 1 letter and 1 digit",
+    "login": {
+      "title": "Log in",
+      "subtitle": "Welcome back",
+      "forgot": "Forgot password?",
+      "submit": "Log in",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create an account",
+      "invalidCredentials": "Incorrect email or password",
+      "sessionExpired": "Your session has expired. Please log in again."
+    },
+    "register": {
+      "title": "Sign up",
+      "subtitle": "Create a new account",
+      "submit": "Create account",
+      "haveAccount": "Already have an account?",
+      "login": "Log in"
+    },
+      "forgot": {
+      "title": "Reset password",
+      "step": "Step {{step}} of 3",
+      "back": "Back",
+      "getCode": "Get code",
+      "codeSent": "If an account exists for <strong>{{email}}</strong>, we've sent a 6-digit code.",
+      "code": "Code",
+      "codePlaceholder": "Enter the code",
+      "newPassword": "New password",
+      "changePassword": "Change password",
+      "expired": "The reset time has expired. Request a new code.",
+      "success": "Your password has been changed.",
+      "loginWithNew": "Log in with your new password",
+      "backToLogin": "Back to login"
+    }
   }
 }

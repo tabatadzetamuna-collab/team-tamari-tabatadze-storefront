@@ -9,8 +9,10 @@ import { authService } from '../../shared/services/authService'
 import { codeSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
 import { KeyIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
+import { Trans, useTranslation } from 'react-i18next'
 
 export default function VerifyCodeStep({ email, onVerified, onStartOver }) {
+  const { t } = useTranslation()
   const [formError, setFormError] = useState(null)
   const [tooManyAttempts, setTooManyAttempts] = useState(false)
 
@@ -35,7 +37,7 @@ export default function VerifyCodeStep({ email, onVerified, onStartOver }) {
       if (error.code === 'INVALID_RESET_CODE') {
         setError(
           'code',
-          { type: 'server', message: 'კოდი არასწორია ან ვადაგასულია' },
+          { type: 'server', message: 'validation.codeInvalid' },
           { shouldFocus: true }
         )
         return
@@ -52,8 +54,8 @@ export default function VerifyCodeStep({ email, onVerified, onStartOver }) {
   if (tooManyAttempts) {
     return (
       <>
-        <Alert variant="error">ბევრი არასწორი მცდელობა, ლიმიტი ამოიწურა. მოითხოვე ახალი კოდი.</Alert>
-        <Button onClick={onStartOver}>ახალი კოდის მოთხოვნა</Button>
+        <Alert variant="error">{t('confirm.tooMany')}</Alert>
+        <Button onClick={onStartOver}>{t('confirm.requestNew')}</Button>
       </>
     )
   }
@@ -61,18 +63,18 @@ export default function VerifyCodeStep({ email, onVerified, onStartOver }) {
   return (
     <form className="forgot-form" onSubmit={handleSubmit(onSubmit)} noValidate>
       <p className="forgot-form__note">
-        თუ {email}-ზე ანგარიში არსებობს, გამოგიგზავნეთ 6-ციფრიანი კოდი.
+        <Trans i18nKey="auth.forgot.codeSent" values={{ email }} components={{ strong: <strong /> }} />
       </p>
       {formError && <Alert variant="error">{formError}</Alert>}
 
       <fieldset className="forgot-form__fieldset" disabled={isSubmitting}>
-        <FormField id="code" label="კოდი" hideLabel error={errors.code?.message}>
+        <FormField id="code" label={t('auth.forgot.code')} hideLabel error={errors.code?.message}>
           <Input
             id="code"
             inputMode="numeric"
             autoComplete="one-time-code"
             maxLength={6}
-            placeholder="შეიყვანე კოდი"
+            placeholder={t('auth.forgot.codePlaceholder')}
             icon={<KeyIcon />}
             error={!!errors.code}
             {...register('code')}
@@ -80,7 +82,7 @@ export default function VerifyCodeStep({ email, onVerified, onStartOver }) {
         </FormField>
 
         <Button type="submit" loading={isSubmitting}>
-          დადასტურება <ArrowRightIcon />
+{t      ('confirm.submit')} <ArrowRightIcon />
         </Button>
       </fieldset>
     </form>

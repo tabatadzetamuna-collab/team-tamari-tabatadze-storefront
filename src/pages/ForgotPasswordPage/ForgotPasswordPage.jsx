@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import AuthLayout from '../../layouts/AuthLayout/AuthLayout'
 import Alert from '../../shared/ui/Alert/Alert'
 import RequestCodeStep from './RequestCodeStep'
@@ -10,7 +11,8 @@ import './ForgotPasswordPage.css'
 const STEP_NUMBER = { request: 1, verify: 2, password: 3 }
 
 export default function ForgotPasswordPage() {
-  const [step, setStep] = useState('request') // 'request' | 'verify' | 'password' | 'done'
+  const { t } = useTranslation()
+  const [step, setStep] = useState('request') 
   const [email, setEmail] = useState('')
   const [resetToken, setResetToken] = useState(null)
 
@@ -20,9 +22,9 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <AuthLayout title="პაროლის აღდგენა">
+    <AuthLayout title={t('auth.forgot.title')}>
       {STEP_NUMBER[step] && (
-        <p className="forgot-page__step">ნაბიჯი {STEP_NUMBER[step]} / 3</p>
+        <p className="forgot-page__step">{t('auth.forgot.step', { step: STEP_NUMBER[step] })}</p>
       )}
 
       {step === 'request' && (
@@ -58,16 +60,16 @@ export default function ForgotPasswordPage() {
 
       {step === 'done' && (
         <>
-          <Alert variant="success">პაროლი წარმატებით შეიცვალა.</Alert>
+          <Alert variant="success">{t('auth.forgot.success')}</Alert>
           <Link to="/login" className="forgot-page__login-link">
-            შესვლა ახალი პაროლით
+            {t('auth.forgot.loginWithNew')}
           </Link>
         </>
       )}
 
       {(step === 'verify' || step === 'password') && (
         <p className="forgot-form__footer">
-          <Link to="/login">დაბრუნება შესვლაზე</Link>
+          <Link to="/login">{t('auth.forgot.backToLogin')}</Link>
         </p>
       )}
     </AuthLayout>

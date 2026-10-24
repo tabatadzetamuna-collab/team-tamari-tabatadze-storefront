@@ -12,9 +12,11 @@ import Alert from '../../shared/ui/Alert/Alert'
 import { UserIcon, MailIcon, LockIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
 import { registerSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
+import { useTranslation } from 'react-i18next'
 import './RegisterPage.css'
 
 export default function RegisterPage() {
+  const { t } = useTranslation()
   const { signUp } = useSession()
   const navigate = useNavigate()
   const [formError, setFormError] = useState(null)
@@ -40,7 +42,7 @@ export default function RegisterPage() {
       if (error.code === 'EMAIL_TAKEN') {
         setError(
           'email',
-          { type: 'server', message: 'ეს ელფოსტა უკვე რეგისტრირებულია' },
+          { type: 'server', message: 'validation.emailTaken' },
           { shouldFocus: true }
         )
         return
@@ -51,28 +53,28 @@ export default function RegisterPage() {
   }
 
   return (
-    <AuthLayout title="რეგისტრაცია">
+    <AuthLayout title={t('auth.register.title')}>
       {formError && <Alert variant="error">{formError}</Alert>}
 
       <form className="register-form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <fieldset className="register-form__fieldset" disabled={isSubmitting}>
-          <FormField id="name" label="სახელი" hideLabel error={errors.name?.message}>
+          <FormField id="name" label={t('auth.name')} hideLabel error={errors.name?.message}>
             <Input
               id="name"
               autoComplete="name"
-              placeholder="შეიყვანე სახელი"
+              placeholder={t('auth.namePlaceholder')}
               icon={<UserIcon />}
               error={!!errors.name}
               {...register('name')}
             />
           </FormField>
 
-          <FormField id="email" label="ელფოსტა" hideLabel error={errors.email?.message}>
+          <FormField id="email" label={t('auth.email')} hideLabel error={errors.email?.message}>
             <Input
               id="email"
               type="email"
               autoComplete="email"
-              placeholder="შეიყვანე ელფოსტა"
+              placeholder={t('auth.emailPlaceholder')}
               icon={<MailIcon />}
               error={!!errors.email}
               {...register('email')}
@@ -81,15 +83,15 @@ export default function RegisterPage() {
 
           <FormField
             id="password"
-            label="პაროლი"
+            label={t('auth.password')}
             hideLabel
-            hint="პაროლი უნდა შეიცავდეს მინიმუმ 8 სიმბოლოს, მათ შორის 1 ასოს და 1 ციფრს"
+            hint={t('auth.passwordHint')}
             error={errors.password?.message}
           >
             <PasswordInput
               id="password"
               autoComplete="new-password"
-              placeholder="შეიყვანე პაროლი"
+              placeholder={t('auth.passwordPlaceholder')}
               icon={<LockIcon />}
               error={!!errors.password}
               {...register('password')}
@@ -98,14 +100,14 @@ export default function RegisterPage() {
 
           <FormField
             id="confirmPassword"
-            label="გაიმეორე პაროლი"
+            label={t('auth.repeatPassword')}
             hideLabel
             error={errors.confirmPassword?.message}
           >
             <PasswordInput
               id="confirmPassword"
               autoComplete="new-password"
-              placeholder="გაიმეორე პაროლი"
+              placeholder={t('auth.repeatPassword')}
               icon={<LockIcon />}
               error={!!errors.confirmPassword}
               {...register('confirmPassword')}
@@ -113,13 +115,13 @@ export default function RegisterPage() {
           </FormField>
 
           <Button type="submit" loading={isSubmitting}>
-            ანგარიშის შექმნა <ArrowRightIcon />
+            {t('auth.register.submit')} <ArrowRightIcon />
           </Button>
         </fieldset>
       </form>
 
       <p className="register-form__footer">
-        უკვე გაქვს ანგარიში? <Link to="/login">შესვლა</Link>
+        {t('auth.register.haveAccount')} <Link to="/login">{t('auth.register.login')}</Link>
       </p>
     </AuthLayout>
   )

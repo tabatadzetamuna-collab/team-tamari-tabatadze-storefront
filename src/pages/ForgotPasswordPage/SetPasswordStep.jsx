@@ -9,8 +9,10 @@ import { LockIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
 import { authService } from '../../shared/services/authService'
 import { newPasswordSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
+import { useTranslation } from 'react-i18next'
 
 export default function SetPasswordStep({ resetToken, onPasswordChanged, onStartOver }) {
+  const { t } = useTranslation()
   const [formError, setFormError] = useState(null)
   const [tokenInvalid, setTokenInvalid] = useState(false)
 
@@ -44,8 +46,8 @@ export default function SetPasswordStep({ resetToken, onPasswordChanged, onStart
   if (tokenInvalid) {
     return (
       <>
-        <Alert variant="error">აღდგენის დრო ამოიწურა. მოითხოვე ახალი კოდი.</Alert>
-        <Button onClick={onStartOver}>ახალი კოდის მოთხოვნა</Button>
+        <Alert variant="error">{t('auth.forgot.expired')}</Alert>
+        <Button onClick={onStartOver}>{t('confirm.requestNew')}</Button>
       </>
     )
   }
@@ -57,15 +59,15 @@ export default function SetPasswordStep({ resetToken, onPasswordChanged, onStart
       <fieldset className="forgot-form__fieldset" disabled={isSubmitting}>
         <FormField
           id="password"
-          label="ახალი პაროლი"
+          label={t('auth.forgot.newPassword')}
           hideLabel
-          hint="პაროლი უნდა შეიცავდეს მინიმუმ 8 სიმბოლოს, მათ შორის 1 ასოს და 1 ციფრს"
+          hint={t('auth.passwordHint')}
           error={errors.password?.message}
         >
           <PasswordInput
             id="password"
             autoComplete="new-password"
-            placeholder="ახალი პაროლი"
+            placeholder={t('auth.forgot.newPassword')}
             icon={<LockIcon />}
             error={!!errors.password}
             {...register('password')}
@@ -74,14 +76,14 @@ export default function SetPasswordStep({ resetToken, onPasswordChanged, onStart
 
         <FormField
           id="confirmPassword"
-          label="გაიმეორე პაროლი"
+          label={t('auth.repeatPassword')}
           hideLabel
           error={errors.confirmPassword?.message}
         >
           <PasswordInput
             id="confirmPassword"
             autoComplete="new-password"
-            placeholder="გაიმეორე პაროლი"
+            placeholder={t('auth.repeatPassword')}
             icon={<LockIcon />}
             error={!!errors.confirmPassword}
             {...register('confirmPassword')}
@@ -89,7 +91,7 @@ export default function SetPasswordStep({ resetToken, onPasswordChanged, onStart
         </FormField>
 
         <Button type="submit" loading={isSubmitting}>
-          პაროლის შეცვლა <ArrowRightIcon />
+         {t('auth.forgot.changePassword')} <ArrowRightIcon />
         </Button>
       </fieldset>
     </form>
