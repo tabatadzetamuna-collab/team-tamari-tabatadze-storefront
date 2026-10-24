@@ -1,14 +1,16 @@
 import { Children, cloneElement, isValidElement } from 'react'
+import { useTranslation } from 'react-i18next'
 import './FormField.css'
 
-// label + ველი + მინიშნება + შეცდომა ერთ ბლოკში.
-// FormField თავად აბამს ველს aria-describedby-ს, რომ ეკრანის წამკითხველმა
-// მინიშნებაც და შეცდომაც წაიკითხოს — გვერდებს ამაზე ფიქრი აღარ სჭირდებათ.
-export default function FormField({ id, label, hint, error, hideLabel = false, children }) {  const hintId = hint ? `${id}-hint` : undefined
+export default function FormField({ id, label, hint, error, hideLabel = false, children }) {
+  const { t } = useTranslation()
+
+  const errorText = error?.startsWith('validation.') ? t(error) : error
+
+  const hintId = hint ? `${id}-hint` : undefined
   const errorId = error ? `${id}-error` : undefined
   const describedBy = [errorId, hintId].filter(Boolean).join(' ') || undefined
 
-  // ყველა შიდა ელემენტს (Input / PasswordInput) aria-describedby ემატება
   const control = Children.map(children, (child) =>
     isValidElement(child) ? cloneElement(child, { 'aria-describedby': describedBy }) : child
   )
@@ -29,7 +31,7 @@ export default function FormField({ id, label, hint, error, hideLabel = false, c
 
       {error && (
         <p id={errorId} className="form-field__error" role="alert">
-          {error}
+          {errorText}
         </p>
       )}
     </div>

@@ -1,3 +1,5 @@
+import i18n from '../../i18n'
+
 export function mapFieldErrors(error, setError, fieldNames) {
   if (error?.code !== 'VALIDATION_ERROR' || !error.errors) return false
 
@@ -11,12 +13,12 @@ export function mapFieldErrors(error, setError, fieldNames) {
 }
 
 const MESSAGES = {
-  TOO_MANY_ATTEMPTS: 'ცდების ლიმიტი ამოიწურა, სცადე მოგვიანებით.',
-  INVALID_RESET_CODE: 'კოდი არასწორია ან ვადაგასულია.',
-  RESET_TOKEN_USED: 'აღდგენის ბმული უკვე გამოყენებულია. მოითხოვე ახალი კოდი.',
+  NETWORK_ERROR: 'errors.network',
+  TOO_MANY_ATTEMPTS: 'errors.tooMany',
+  INVALID_RESET_CODE: 'errors.invalidResetCode',
+  RESET_TOKEN_USED: 'errors.resetTokenUsed',
 }
 
 export function describeError(error) {
-  if (error?.code === 'NETWORK_ERROR') return error.message
-  return MESSAGES[error?.code] ?? 'შეცდომა მოხდა. სცადე თავიდან.'
+  return i18n.t(MESSAGES[error?.code] ?? 'errors.generic')
 }

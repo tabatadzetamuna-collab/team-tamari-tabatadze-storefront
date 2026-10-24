@@ -165,5 +165,36 @@
     "quantity": "Quantity",
     "lineTotal": "Subtotal",
     "shippingAddress": "Shipping address"
+  },
+  "validation": {
+    "emailRequired": "Email is required",
+    "emailInvalid": "Enter a valid email",
+    "emailTaken": "This email is already registered",
+    "passwordRequired": "Password is required",
+    "passwordMin": "Password must be at least 8 characters",
+    "passwordLetter": "Password must contain at least 1 letter",
+    "passwordDigit": "Password must contain at least 1 digit",
+    "passwordRepeat": "Repeat your password",
+    "passwordsMismatch": "Passwords don't match",
+    "currentPasswordRequired": "Enter your current password",
+    "wrongPassword": "Incorrect password",
+    "nameMin": "Name must be at least 2 characters",
+    "codeFormat": "The code must be 6 digits",
+    "codeInvalid": "The code is invalid or has expired",
+    "min2": "At least 2 characters",
+    "min5": "At least 5 characters",
+    "max30": "Maximum 30 characters",
+    "phoneLength": "Phone: 9–20 characters",
+    "cityRequired": "Enter a city",
+    "cardNumberInvalid": "Invalid card number",
+    "expiryInvalid": "Invalid or expired date",
+    "cvcFormat": "3–4 digits"
+  },
+  "errors": {
+    "network": "Couldn't reach the server. Check your connection.",
+    "tooMany": "Too many attempts. Try again later.",
+    "invalidResetCode": "The code is invalid or has expired.",
+    "resetTokenUsed": "This reset link has already been used. Request a new code.",
+    "generic": "Something went wrong. Please try again."
   }
 }
