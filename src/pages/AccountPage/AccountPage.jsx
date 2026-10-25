@@ -11,11 +11,13 @@ import Alert from '../../shared/ui/Alert/Alert'
 import { EditIcon } from '../../shared/ui/icons/icons'
 import { profileSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
+import { useTranslation } from 'react-i18next'
 import './AccountPage.css'
 
 const NOT_CHANGES = ['currentPassword', 'confirmNewPassword']
 
 export default function AccountPage() {
+  const { t } = useTranslation()
   const { user, updateUser } = useSession()
   const [showPassword, setShowPassword] = useState(false)
   const [formError, setFormError] = useState(null)
@@ -71,7 +73,7 @@ export default function AccountPage() {
       setSaved(true)
     } catch (error) {
       if (error.code === 'INVALID_CURRENT_PASSWORD') {
-        setError('currentPassword', { type: 'server', message: 'პაროლი არასწორია' }, { shouldFocus: true })
+        setError('currentPassword', { type: 'server', message: 'validation.wrongPassword' }, { shouldFocus: true })
         return
       }
       if (error.code === 'EMAIL_TAKEN') {
@@ -93,7 +95,7 @@ export default function AccountPage() {
 
   return (
     <section className="account-card">
-      <h1 className="account-card__header">ანგარიშის პარამეტრები</h1>
+      <h1 className="account-card__header">{t('profile.settings')}</h1>
 
       <div className="account-card__body">
         <span className="account-card__avatar" aria-hidden="true">
@@ -101,16 +103,16 @@ export default function AccountPage() {
         </span>
 
         <form className="account-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-          {saved && <Alert variant="success">ცვლილებები შენახულია</Alert>}
+          {saved && <Alert variant="success">t('profile.saved')</Alert>}
           {formError && <Alert variant="error">{formError}</Alert>}
 
           <fieldset className="account-form__fieldset" disabled={isSubmitting}>
             <div className="account-form__grid">
-              <FormField id="name" label="სახელი" error={errors.name?.message}>
+              <FormField id="name" label={t('profile.name')} error={errors.name?.message}>
                 <Input id="name" autoComplete="name" error={!!errors.name} {...register('name')} />
               </FormField>
 
-              <FormField id="email" label="ელფოსტა" error={errors.email?.message}>
+              <FormField id="email" label={t('profile.email')} error={errors.email?.message}>
                 <Input
                   id="email"
                   type="email"
@@ -128,15 +130,15 @@ export default function AccountPage() {
               aria-controls="new-password-fields"
               onClick={togglePassword}
             >
-              პაროლის შეცვლა <EditIcon />
+              {t('profile.changePassword')} <EditIcon />
             </button>
 
             {showPassword && (
               <div id="new-password-fields" className="account-form__grid">
                 <FormField
                   id="newPassword"
-                  label="ახალი პაროლი"
-                  hint="მინიმუმ 8 სიმბოლო, მათ შორის 1 ასო და 1 ციფრი"
+                  label={t('profile.newPassword')}
+                  hint={t('auth.passwordHint')}
                   error={errors.newPassword?.message}
                 >
                   <PasswordInput
@@ -149,7 +151,7 @@ export default function AccountPage() {
 
                 <FormField
                   id="confirmNewPassword"
-                  label="გაიმეორე ახალი პაროლი"
+                  label={t('profile.repeatNewPassword')}
                   error={errors.confirmNewPassword?.message}
                 >
                   <PasswordInput
@@ -164,7 +166,7 @@ export default function AccountPage() {
 
             <FormField
               id="currentPassword"
-              label="მიმდინარე პაროლი"
+              label={t('profile.currentPassword')}
               error={errors.currentPassword?.message}
             >
               <PasswordInput
@@ -177,7 +179,7 @@ export default function AccountPage() {
 
             <div className="account-form__actions">
               <Button type="submit" loading={isSubmitting} disabled={!canSave}>
-                შენახვა
+                {t('profile.save')}
               </Button>
             </div>
           </fieldset>

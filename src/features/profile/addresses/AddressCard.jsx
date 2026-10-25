@@ -1,7 +1,9 @@
 import { EditIcon, TrashIcon } from '../../../shared/ui/icons/icons'
+import { useTranslation } from 'react-i18next'
 import './addresses.css'
 
 export default function AddressCard({ address, busy, onEdit, onDelete, onMakeDefault }) {
+  const { t } = useTranslation()
   const { label, fullName, phone, city, address: street, isDefault } = address
   const name = label || street
 
@@ -9,7 +11,7 @@ export default function AddressCard({ address, busy, onEdit, onDelete, onMakeDef
     <article className="address-card">
       <div className="address-card__head">
         {isDefault ? (
-          <span className="address-card__badge">ძირითადი მისამართ</span>
+          <span className="address-card__badge">{t('addresses.default')}</span>
         ) : (
           <button
             type="button"
@@ -18,7 +20,7 @@ export default function AddressCard({ address, busy, onEdit, onDelete, onMakeDef
             onClick={onMakeDefault}
           >
             <span className="address-card__radio" aria-hidden="true" />
-            ძირითადად დაყენება
+            {t('addresses.makeDefault')}
           </button>
         )}
 
@@ -26,7 +28,7 @@ export default function AddressCard({ address, busy, onEdit, onDelete, onMakeDef
           <button
             type="button"
             className="address-card__icon"
-            aria-label={`რედაქტირება: ${name}`}
+            aria-label={t('addresses.edit', { name })}
             onClick={onEdit}
           >
             <EditIcon />
@@ -34,7 +36,7 @@ export default function AddressCard({ address, busy, onEdit, onDelete, onMakeDef
           <button
             type="button"
             className="address-card__icon"
-            aria-label={`წაშლა: ${name}`}
+            aria-label={t('addresses.delete', { name })}
             disabled={busy}
             onClick={onDelete}
           >
@@ -47,7 +49,7 @@ export default function AddressCard({ address, busy, onEdit, onDelete, onMakeDef
         {label && <p className="address-card__label">{label}</p>}
         <p className="address-card__name">{fullName}</p>
         <p>{city}, {street}</p>
-        <p>ტელეფონი: {phone}</p>
+        <p>{t('checkout.phoneValue', { phone })}</p>
       </div>
     </article>
   )

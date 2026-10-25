@@ -7,11 +7,13 @@ import Button from '../../../shared/ui/Button/Button'
 import Alert from '../../../shared/ui/Alert/Alert'
 import { addressSchema } from '../../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../../shared/lib/mapServerErrors'
+import { useTranslation } from 'react-i18next'
 import './addresses.css'
 
 const FIELDS = ['label', 'fullName', 'phone', 'city', 'address']
 
 export default function AddressForm({ address, onSave, onCancel }) {
+  const { t } = useTranslation()
   const isEdit = Boolean(address)
   const [formError, setFormError] = useState(null)
 
@@ -45,7 +47,7 @@ export default function AddressForm({ address, onSave, onCancel }) {
       await onSave(body)
     } catch (error) {
       if (error.code === 'ADDRESS_LIMIT_REACHED') {
-        setFormError('მაქსიმუმ 10 მისამართის შენახვა შეიძლება')
+        setFormError(t('addresses.limit'))
         return
       }
       if (mapFieldErrors(error, setError, FIELDS)) return
@@ -58,7 +60,7 @@ export default function AddressForm({ address, onSave, onCancel }) {
   return (
     <form className="address-form" onSubmit={handleSubmit(onSubmit)} noValidate>
       <h2 className="address-form__title">
-        {isEdit ? 'მისამართის რედაქტირება' : 'ახალი მისამართი'}
+        {isEdit ? t('addresses.editTitle') : t('addresses.newTitle')}
       </h2>
 
       {formError && <Alert variant="error">{formError}</Alert>}
@@ -67,13 +69,13 @@ export default function AddressForm({ address, onSave, onCancel }) {
         <div className="address-form__grid">
           <FormField
             id={`${prefix}-label`}
-            label="დასახელება (არასავალდებულო)"
+            label={t('addresses.label')}
             error={errors.label?.message}
           >
             <Input id={`${prefix}-label`} error={!!errors.label} {...register('label')} />
           </FormField>
 
-          <FormField id={`${prefix}-fullName`} label="მიმღები" error={errors.fullName?.message}>
+          <FormField id={`${prefix}-fullName`} label={t('checkout.fullName')} error={errors.fullName?.message}>
             <Input
               id={`${prefix}-fullName`}
               autoComplete="name"
@@ -82,7 +84,7 @@ export default function AddressForm({ address, onSave, onCancel }) {
             />
           </FormField>
 
-          <FormField id={`${prefix}-phone`} label="ტელეფონი" error={errors.phone?.message}>
+          <FormField id={`${prefix}-phone`} label={t('checkout.phone')} error={errors.phone?.message}>
             <Input
               id={`${prefix}-phone`}
               type="tel"
@@ -93,7 +95,7 @@ export default function AddressForm({ address, onSave, onCancel }) {
             />
           </FormField>
 
-          <FormField id={`${prefix}-city`} label="ქალაქი" error={errors.city?.message}>
+          <FormField id={`${prefix}-city`} label={t('checkout.city')} error={errors.city?.message}>
             <Input
               id={`${prefix}-city`}
               autoComplete="address-level2"
@@ -103,7 +105,7 @@ export default function AddressForm({ address, onSave, onCancel }) {
           </FormField>
         </div>
 
-        <FormField id={`${prefix}-address`} label="მისამართი" error={errors.address?.message}>
+        <FormField id={`${prefix}-address`} label={t('checkout.address')} error={errors.address?.message}>
           <Input
             id={`${prefix}-address`}
             autoComplete="street-address"
@@ -115,16 +117,16 @@ export default function AddressForm({ address, onSave, onCancel }) {
         {!address?.isDefault && (
           <label className="address-form__check">
             <input type="checkbox" {...register('isDefault')} />
-            ძირითადად დაყენება
+            {t('addresses.makeDefault')}
           </label>
         )}
 
         <div className="address-form__actions">
           <Button type="submit" loading={isSubmitting} disabled={isEdit && !isDirty}>
-            შენახვა
+            {t('addresses.save')}
           </Button>
           <Button type="button" variant="outline" onClick={onCancel}>
-            გაუქმება
+            {t('addresses.cancel')}
           </Button>
         </div>
       </fieldset>

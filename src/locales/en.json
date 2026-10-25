@@ -241,5 +241,39 @@
       "loginWithNew": "Log in with your new password",
       "backToLogin": "Back to login"
     }
+  },
+  "profile": {
+    "title": "Profile",
+    "menu": "Profile menu",
+    "account": "Account",
+    "addresses": "Addresses",
+    "settings": "Account settings",
+    "name": "Name",
+    "email": "Email",
+    "changePassword": "Change password",
+    "cancelPasswordChange": "Cancel",
+    "newPassword": "New password",
+    "repeatNewPassword": "Repeat new password",
+    "currentPassword": "Current password",
+    "save": "Save",
+    "saved": "Changes saved",
+    "nothingToChange": "Nothing to change"
+  },
+  "addresses": {
+    "title": "Addresses",
+    "add": "Add address",
+    "limit": "You can save up to 10 addresses",
+    "empty": "You have no saved addresses",
+    "confirmDelete": "Delete “{{name}}”?",
+    "alreadyDeleted": "This address has already been deleted",
+    "default": "Default address",
+    "makeDefault": "Set as default",
+    "edit": "Edit: {{name}}",
+    "delete": "Delete: {{name}}",
+    "newTitle": "New address",
+    "editTitle": "Edit address",
+    "label": "Label (optional)",
+    "save": "Save",
+    "cancel": "Cancel"
   }
 }
