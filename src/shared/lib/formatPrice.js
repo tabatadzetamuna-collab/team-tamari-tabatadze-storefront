@@ -14,6 +14,7 @@ export function formatPrice(value, currency = 'GEL') {
     maximumFractionDigits: 2,
   }).format(value)
 }
+
 export function formatDate(value) {
   return new Intl.DateTimeFormat(currentLocale(), {
     dateStyle: 'long',
