@@ -121,3 +121,39 @@
   font-size: 11px;
   font-weight: var(--font-weight-bold);
 }
+.top-bar__user .lang-switch,
+.top-bar__cart {
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .top-bar {
+    gap: var(--space-8);
+    padding-inline: var(--space-16);
+  }
+
+  .top-bar__user {
+    gap: var(--space-8);
+  }
+
+  .top-bar__name {
+    font-size: 0;
+    gap: 0;
+  }
+
+  .top-bar__name svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .top-bar__user .button {
+    height: 36px;
+    padding: 0 var(--space-12);
+    font-size: var(--font-size-small);
+  }
+
+  .lang-switch__button {
+    min-width: 30px;
+    padding: 0 var(--space-4);
+  }
+}
