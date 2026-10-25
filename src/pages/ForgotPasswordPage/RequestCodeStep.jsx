@@ -1,70 +1,186 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useSession } from '../../session/useSession'
+import { authService } from '../../shared/services/authService'
 import FormField from '../../shared/ui/FormField/FormField'
 import Input from '../../shared/ui/Input/Input'
+import PasswordInput from '../../shared/ui/PasswordInput/PasswordInput'
 import Button from '../../shared/ui/Button/Button'
 import Alert from '../../shared/ui/Alert/Alert'
-import { MailIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
-import { authService } from '../../shared/services/authService'
-import { forgotSchema } from '../../shared/lib/validation'
+import { EditIcon } from '../../shared/ui/icons/icons'
+import { profileSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
-import { useTranslation } from 'react-i18next'
+import './AccountPage.css'
 
-export default function RequestCodeStep({ onCodeSent }) {
+const NOT_CHANGES = ['currentPassword', 'confirmNewPassword']
+
+export default function AccountPage() {
   const { t } = useTranslation()
+  const { user, updateUser } = useSession()
+  const [showPassword, setShowPassword] = useState(false)
   const [formError, setFormError] = useState(null)
+  const [saved, setSaved] = useState(false)
+
+  const emptyValues = (u) => ({
+    name: u.name,
+    email: u.email,
+    newPassword: '',
+    confirmNewPassword: '',
+    currentPassword: '',
+  })
 
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting },
+    reset,
+    resetField,
+    formState: { errors, isSubmitting, dirtyFields },
   } = useForm({
-    resolver: zodResolver(forgotSchema),
+    resolver: zodResolver(profileSchema),
     mode: 'onSubmit',
     reValidateMode: 'onChange',
-    defaultValues: { email: '' },
+    defaultValues: emptyValues(user),
   })
 
-  async function onSubmit({ email }) {
+  const changedKeys = Object.keys(dirtyFields).filter((key) => !NOT_CHANGES.includes(key))
+  const canSave = changedKeys.length > 0
+
+  function togglePassword() {
+    if (showPassword) {
+      resetField('newPassword')
+      resetField('confirmNewPassword')
+    }
+    setShowPassword((open) => !open)
+  }
+
+  async function onSubmit(values) {
     setFormError(null)
+    setSaved(false)
+
+    const changed = Object.fromEntries(changedKeys.map((key) => [key, values[key]]))
+
     try {
-      await authService.requestResetCode(email)
-      onCodeSent(email)
+      const data = await authService.updateProfile({
+        currentPassword: values.currentPassword,
+        ...changed,
+      })
+      updateUser(data.user)
+      reset(emptyValues(data.user))
+      setShowPassword(false)
+      setSaved(true)
     } catch (error) {
-      if (mapFieldErrors(error, setError, ['email'])) return
+      if (error.code === 'INVALID_CURRENT_PASSWORD') {
+        setError('currentPassword', { type: 'server', message: 'validation.wrongPassword' }, { shouldFocus: true })
+        return
+      }
+      if (error.code === 'EMAIL_TAKEN') {
+        setError('email', { type: 'server', message: 'validation.emailTaken' }, { shouldFocus: true })
+        return
+      }
+      if (error.code === 'VALIDATION_ERROR' && error.errors?._) {
+        setFormError(t('profile.nothingToChange'))
+        return
+      }
+      if (mapFieldErrors(error, setError, ['name', 'email', 'newPassword', 'currentPassword'])) return
       setFormError(describeError(error))
     }
   }
 
   return (
-    <form className="forgot-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-      {formError && <Alert variant="error">{formError}</Alert>}
+    <section className="account-card">
+      <h1 className="account-card__header">{t('profile.settings')}</h1>
 
-      <fieldset className="forgot-form__fieldset" disabled={isSubmitting}>
-        <FormField id="email" label={t('auth.email')} hideLabel error={errors.email?.message}>
-          <Input
-            id="email"
-            type="email"
-            autoComplete="email"
-            placeholder={t('auth.emailPlaceholder')}
-            icon={<MailIcon />}
-            error={!!errors.email}
-            {...register('email')}
-          />
-        </FormField>
+      <div className="account-card__body">
+        <span className="account-card__avatar" aria-hidden="true">
+          {user.name?.charAt(0).toUpperCase()}
+        </span>
 
-        <div className="forgot-form__actions">
-          <Link to="/login" className="button button--secondary" aria-label="დაბრუნება შესვლაზე">
-            {t('auth.forgot.back')}
-          </Link>
-          <Button type="submit" loading={isSubmitting}>
-            {t('auth.forgot.getCode')} <ArrowRightIcon />
-          </Button>
-        </div>
-      </fieldset>
-    </form>
+        <form className="account-form" onSubmit={handleSubmit(onSubmit)} noValidate>
+          {saved && <Alert variant="success">{t('profile.saved')}</Alert>}
+          {formError && <Alert variant="error">{formError}</Alert>}
+
+          <fieldset className="account-form__fieldset" disabled={isSubmitting}>
+            <div className="account-form__grid">
+              <FormField id="name" label={t('profile.name')} error={errors.name?.message}>
+                <Input id="name" autoComplete="name" error={!!errors.name} {...register('name')} />
+              </FormField>
+
+              <FormField id="email" label={t('profile.email')} error={errors.email?.message}>
+                <Input
+                  id="email"
+                  type="email"
+                  autoComplete="email"
+                  error={!!errors.email}
+                  {...register('email')}
+                />
+              </FormField>
+            </div>
+
+            <button
+              type="button"
+              className="account-form__toggle"
+              aria-expanded={showPassword}
+              aria-controls="new-password-fields"
+              onClick={togglePassword}
+            >
+              {t('profile.changePassword')} <EditIcon />
+            </button>
+
+            {showPassword && (
+              <div id="new-password-fields" className="account-form__grid">
+                <FormField
+                  id="newPassword"
+                  label={t('profile.newPassword')}
+                  hint={t('auth.passwordHint')}
+                  error={errors.newPassword?.message}
+                >
+                  <PasswordInput
+                    id="newPassword"
+                    autoComplete="new-password"
+                    error={!!errors.newPassword}
+                    {...register('newPassword')}
+                  />
+                </FormField>
+
+                <FormField
+                  id="confirmNewPassword"
+                  label={t('profile.repeatNewPassword')}
+                  error={errors.confirmNewPassword?.message}
+                >
+                  <PasswordInput
+                    id="confirmNewPassword"
+                    autoComplete="new-password"
+                    error={!!errors.confirmNewPassword}
+                    {...register('confirmNewPassword')}
+                  />
+                </FormField>
+              </div>
+            )}
+
+            <FormField
+              id="currentPassword"
+              label={t('profile.currentPassword')}
+              error={errors.currentPassword?.message}
+            >
+              <PasswordInput
+                id="currentPassword"
+                autoComplete="current-password"
+                error={!!errors.currentPassword}
+                {...register('currentPassword')}
+              />
+            </FormField>
+
+            <div className="account-form__actions">
+              <Button type="submit" loading={isSubmitting} disabled={!canSave}>
+                {t('profile.save')}
+              </Button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </section>
   )
 }

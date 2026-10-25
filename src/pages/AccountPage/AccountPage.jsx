@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslation } from 'react-i18next'
 import { useSession } from '../../session/useSession'
 import { authService } from '../../shared/services/authService'
 import FormField from '../../shared/ui/FormField/FormField'
@@ -11,7 +12,6 @@ import Alert from '../../shared/ui/Alert/Alert'
 import { EditIcon } from '../../shared/ui/icons/icons'
 import { profileSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
-import { useTranslation } from 'react-i18next'
 import './AccountPage.css'
 
 const NOT_CHANGES = ['currentPassword', 'confirmNewPassword']
@@ -67,8 +67,8 @@ export default function AccountPage() {
         currentPassword: values.currentPassword,
         ...changed,
       })
-      updateUser(data.user)          
-      reset(emptyValues(data.user))  
+      updateUser(data.user)
+      reset(emptyValues(data.user))
       setShowPassword(false)
       setSaved(true)
     } catch (error) {
@@ -77,15 +77,11 @@ export default function AccountPage() {
         return
       }
       if (error.code === 'EMAIL_TAKEN') {
-        setError(
-          'email',
-          { type: 'server', message: 'ეს ელფოსტა უკვე რეგისტრირებულია' },
-          { shouldFocus: true }
-        )
+        setError('email', { type: 'server', message: 'validation.emailTaken' }, { shouldFocus: true })
         return
       }
       if (error.code === 'VALIDATION_ERROR' && error.errors?._) {
-        setFormError('შესაცვლელი არაფერია')
+        setFormError(t('profile.nothingToChange'))
         return
       }
       if (mapFieldErrors(error, setError, ['name', 'email', 'newPassword', 'currentPassword'])) return
@@ -103,7 +99,7 @@ export default function AccountPage() {
         </span>
 
         <form className="account-form" onSubmit={handleSubmit(onSubmit)} noValidate>
-          {saved && <Alert variant="success">t('profile.saved')</Alert>}
+          {saved && <Alert variant="success">{t('profile.saved')}</Alert>}
           {formError && <Alert variant="error">{formError}</Alert>}
 
           <fieldset className="account-form__fieldset" disabled={isSubmitting}>
