@@ -12,11 +12,13 @@ import Alert from '../../shared/ui/Alert/Alert'
 import { KeyIcon } from '../../shared/ui/icons/icons'
 import { codeSchema } from '../../shared/lib/validation'
 import { describeError } from '../../shared/lib/mapServerErrors'
+import { Trans, useTranslation } from 'react-i18next'
 import './ConfirmPage.css'
 
 const RESEND_SECONDS = 30
 
 export default function ConfirmPage() {
+  const { t } = useTranslation()
   const { orderId } = useParams()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -61,7 +63,7 @@ export default function ConfirmPage() {
       goToOrder()
     } catch (error) {
       if (error.code === 'INVALID_PAYMENT_CODE') {
-        setError('code', { type: 'server', message: 'კოდი არასწორია ან ვადაგასულია' }, { shouldFocus: true })
+        setError('code', { type: 'server', message: t('confirm.invalidCode') }, { shouldFocus: true })
         return
       }
       if (error.code === 'TOO_MANY_ATTEMPTS') {
@@ -86,7 +88,7 @@ export default function ConfirmPage() {
     try {
       await orderService.resendCode(orderId)
       setBanner(null)
-      setNotice('ახალი კოდი გაიგზავნა')
+      setNotice(t('confirm.newCodeSent'))
       setSecondsLeft(RESEND_SECONDS)
     } catch (error) {
       if (error.code === 'RESEND_TOO_SOON') {
@@ -111,25 +113,25 @@ export default function ConfirmPage() {
         <span className="confirm-card__icon" aria-hidden="true">
           <KeyIcon />
         </span>
-        <h1 className="confirm-card__title">გადახდის დადასტურება</h1>
+        <h1 className="confirm-card__title">{t('confirm.title')}</h1>
         <p className="confirm-card__text">
-          კოდი გამოგზავნილია <strong>{user?.email}</strong>-ზე. მოქმედებს 10 წუთი.
+          <Trans i18nKey="confirm.sent" values={{ email: user?.email }} components={{ strong: <strong /> }} />
         </p>
 
         {notice && <Alert variant="success">{notice}</Alert>}
         {banner === 'tooMany' && (
-          <Alert variant="error">ბევრი არასწორი მცდელობა, ლიმიტი ამოიწურა. მოითხოვე ახალი კოდი.</Alert>
+          <Alert variant="error">{t('confirm.tooMany')}</Alert>
         )}
         {banner === 'stock' && (
           <Alert variant="error">
-          საკმარისი რაოდენობა არ არის<Link to="/cart">კალათაში დაბრუნება</Link>
+          {t('confirm.stock')} <Link to="/cart">{t('checkout.backToCart')}</Link>
           </Alert>
         )}
         {otherError && <Alert variant="error">{banner}</Alert>}
 
         <form className="confirm-form" onSubmit={handleSubmit(onSubmit)} noValidate>
           <fieldset className="confirm-form__fieldset" disabled={isSubmitting}>
-            <FormField id="code" label="6-ციფრიანი კოდი" error={errors.code?.message}>
+            <FormField id="code" label={t('confirm.codeLabel')} error={errors.code?.message}>
               <Input
                 id="code"
                 inputMode="numeric"
@@ -141,7 +143,7 @@ export default function ConfirmPage() {
             </FormField>
 
             <Button type="submit" loading={isSubmitting}>
-              დადასტურება
+              {t('confirm.submit')}
             </Button>
           </fieldset>
         </form>
@@ -153,10 +155,10 @@ export default function ConfirmPage() {
           onClick={resend}
         >
           {secondsLeft > 0
-            ? `ხელახლა გაგზავნა (${secondsLeft} წმ)`
-            : banner === 'tooMany'
-              ? 'ახალი კოდის მოთხოვნა'
-              : 'ხელახლა გაგზავნა'}
+          ? t('confirm.resendIn', { seconds: secondsLeft })
+          : banner === 'tooMany'
+          ? t('confirm.requestNew')
+          : t('confirm.resend')}
         </button>
       </div>
     </section>

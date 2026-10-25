@@ -100,6 +100,25 @@
 .auth-layout a:hover {
   text-decoration: underline;
 }
+.auth-layout__lang {
+  position: absolute;
+  top: var(--space-16);
+  right: var(--space-16);
+  z-index: 2;
+}
+
+.auth-layout__lang .lang-switch {
+  border-color: var(--color-on-dark-line);
+}
+
+.auth-layout__lang .lang-switch__button {
+  color: var(--color-on-dark);
+}
+
+.auth-layout__lang .lang-switch__button[aria-pressed='true'] {
+  background: var(--color-on-dark);
+  color: var(--color-dark);
+}
 
 @media (max-width: 480px) {
   .auth-layout {

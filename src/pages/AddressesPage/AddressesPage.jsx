@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import AddressCard from '../../features/profile/addresses/AddressCard'
 import AddressForm from '../../features/profile/addresses/AddressForm'
 import { useAddresses, useAddressMutations } from '../../features/profile/addresses/useAddresses'
@@ -10,9 +11,10 @@ import { MAX_ADDRESSES } from '../../config'
 import './AddressesPage.css'
 
 export default function AddressesPage() {
+  const { t } = useTranslation()
   const { data, isPending, isError, refetch } = useAddresses()
   const { create, update, remove } = useAddressMutations()
-  const [editing, setEditing] = useState(null) // 'new' | მისამართის id | null
+  const [editing, setEditing] = useState(null)
   const [notice, setNotice] = useState(null)
 
   const items = data?.items ?? []
@@ -26,12 +28,12 @@ export default function AddressesPage() {
 
   async function handleDelete(address) {
     const name = address.label || address.address
-    if (!window.confirm(`წაიშალოს „${name}"?`)) return
+    if (!window.confirm(t('addresses.confirmDelete', { name }))) return
     setNotice(null)
     try {
       await remove.mutateAsync(address.id)
     } catch (error) {
-      setNotice(error.code === 'ADDRESS_NOT_FOUND' ? 'ეს მისამართი უკვე წაშლილია' : describeError(error))
+      setNotice(error.code === 'ADDRESS_NOT_FOUND' ? t('addresses.alreadyDeleted') : describeError(error))
     }
   }
 
@@ -40,7 +42,7 @@ export default function AddressesPage() {
     try {
       await update.mutateAsync({ id: address.id, body: { isDefault: true } })
     } catch (error) {
-      setNotice(error.code === 'ADDRESS_NOT_FOUND' ? 'ეს მისამართი უკვე წაშლილია' : describeError(error))
+      setNotice(error.code === 'ADDRESS_NOT_FOUND' ? t('addresses.alreadyDeleted') : describeError(error))
     }
   }
 
@@ -56,17 +58,18 @@ export default function AddressesPage() {
 
     if (isError) {
       return (
-        <EmptyState role="alert" title="ვერ ჩაიტვირთა" actionLabel="ხელახლა ცდა" onAction={() => refetch()} />
+        <EmptyState
+          role="alert"
+          title={t('common.loadFailed')}
+          actionLabel={t('common.retry')}
+          onAction={() => refetch()}
+        />
       )
     }
 
     if (items.length === 0 && editing !== 'new') {
       return (
-        <EmptyState
-          title="შენახული მისამართი არ გაქვს"
-          actionLabel="მისამართის დამატება"
-          onAction={startAdding}
-        />
+        <EmptyState title={t('addresses.empty')} actionLabel={t('addresses.add')} onAction={startAdding} />
       )
     }
 
@@ -101,15 +104,13 @@ export default function AddressesPage() {
   return (
     <section className="addresses-page">
       <div className="addresses-page__head">
-        <h1 className="addresses-page__title">მისამართები</h1>
+        <h1 className="addresses-page__title">{t('addresses.title')}</h1>
         <Button onClick={startAdding} disabled={limitReached || editing === 'new' || isPending}>
-          მისამართის დამატება
+          {t('addresses.add')}
         </Button>
       </div>
 
-      {limitReached && (
-        <p className="addresses-page__hint">მაქსიმუმ {MAX_ADDRESSES} მისამართის შენახვა შეიძლება</p>
-      )}
+      {limitReached && <p className="addresses-page__hint">{t('addresses.limit')}</p>}
 
       {notice && <Alert variant="error">{notice}</Alert>}
 

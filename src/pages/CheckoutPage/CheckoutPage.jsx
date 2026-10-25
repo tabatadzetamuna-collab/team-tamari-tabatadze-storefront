@@ -13,6 +13,7 @@ import { checkoutSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
 import { formatCardNumber, formatExpiry } from '../../shared/lib/card'
 import { formatPrice } from '../../shared/lib/formatPrice'
+import { useTranslation } from 'react-i18next'
 import './CheckoutPage.css'
 
 const SERVER_FIELDS = [
@@ -21,6 +22,7 @@ const SERVER_FIELDS = [
 ]
 
 export default function CheckoutPage() {
+  const { t } = useTranslation()
   const { data, isPending, isError, refetch } = useCheckout()
 
   if (isPending) {
@@ -32,7 +34,7 @@ export default function CheckoutPage() {
   }
 
   if (isError) {
-    return <EmptyState role="alert" title="ვერ ჩაიტვირთა" actionLabel="ხელახლა ცდა" onAction={() => refetch()} />
+    return <EmptyState role="alert" title={t('common.loadFailed')} actionLabel={t('common.retry')} onAction={() => refetch()} />
   }
 
   if (data.items.length === 0) return <Navigate to="/cart" replace />
@@ -41,6 +43,7 @@ export default function CheckoutPage() {
 }
 
 function CheckoutForm({ checkout }) {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [formError, setFormError] = useState(null)
   const [cardError, setCardError] = useState(null)
@@ -88,7 +91,7 @@ function CheckoutForm({ checkout }) {
       navigate(`/checkout/confirm/${orderId}`)
     } catch (error) {
       if (error.code === 'CARD_DECLINED') {
-        setCardError('ბარათი უარყოფილია, სცადე სხვა ბარათი')
+        setCardError(t('checkout.cardDeclined'))
         return
       }
       if (error.code === 'CART_EMPTY') {
@@ -109,26 +112,25 @@ function CheckoutForm({ checkout }) {
 
   return (
     <section className="checkout-page">
-      <nav className="checkout-page__breadcrumb" aria-label="ნავიგაცია">
-        <Link to="/">მთავარი</Link> / <Link to="/cart">კალათა</Link> / <span>შეკვეთის გაფორმება</span>
+      <nav className="checkout-page__breadcrumb" aria-label={t('product.breadcrumb')}>
+        <Link to="/">{t('product.home')}</Link> / <Link to="/cart">{t('cart.title')}</Link> / <span>{t('checkout.title')}</span>
       </nav>
 
-      <h1 className="checkout-page__title">შეკვეთის გაფორმება</h1>
+      <h1 className="checkout-page__title">{t('checkout.title')}</h1>
 
       <form className="checkout-page__layout" onSubmit={handleSubmit(onSubmit)} noValidate>
         <fieldset className="checkout-page__main" disabled={isSubmitting}>
           {formError && <Alert variant="error">{formError}</Alert>}
           {stockError && (
             <Alert variant="error">
-              ზოგი პროდუქტი აღარ არის საკმარისი რაოდენობით. <Link to="/cart">კალათაში დაბრუნება</Link>
-            </Alert>
+              {t('checkout.stockError')} <Link to="/cart">{t('checkout.backToCart')}</Link>            </Alert>
           )}
 
           <section className="checkout-card" aria-labelledby="shipping-title">
-            <h2 id="shipping-title" className="checkout-card__title">მიწოდება</h2>
+            <h2 id="shipping-title" className="checkout-card__title">{t('checkout.shipping')}</h2>
 
             {addresses.length > 1 && (
-              <div className="address-picker" role="radiogroup" aria-label="შენახული მისამართები">
+              <div className="address-picker" role="radiogroup" aria-label={t('checkout.savedAddresses')}>
                 {addresses.map((address) => (
                   <label key={address.id} className="address-picker__option">
                     <input
@@ -140,7 +142,7 @@ function CheckoutForm({ checkout }) {
                     <span className="address-picker__text">
                       <strong>{address.label || address.fullName}</strong>
                       <span>{address.city}, {address.address}</span>
-                      <span>ტელეფონი: {address.phone}</span>
+                      <span>{t('checkout.phoneValue', { phone: address.phone })}</span>
                     </span>
                   </label>
                 ))}
@@ -148,7 +150,7 @@ function CheckoutForm({ checkout }) {
             )}
 
             <div className="checkout-card__grid">
-              <FormField id="shipping-fullName" label="მიმღები" error={errors.shipping?.fullName?.message}>
+              <FormField id="shipping-fullName" label={t('checkout.fullName')} error={errors.shipping?.fullName?.message}>
                 <Input
                   id="shipping-fullName"
                   autoComplete="name"
@@ -157,7 +159,7 @@ function CheckoutForm({ checkout }) {
                 />
               </FormField>
 
-              <FormField id="shipping-phone" label="ტელეფონი" error={errors.shipping?.phone?.message}>
+              <FormField id="shipping-phone" label={t('checkout.phone')} error={errors.shipping?.phone?.message}>
                 <Input
                   id="shipping-phone"
                   type="tel"
@@ -167,7 +169,7 @@ function CheckoutForm({ checkout }) {
                 />
               </FormField>
 
-              <FormField id="shipping-city" label="ქალაქი" error={errors.shipping?.city?.message}>
+              <FormField id="shipping-city" label={t('checkout.city')} error={errors.shipping?.city?.message}>
                 <Input
                   id="shipping-city"
                   autoComplete="address-level2"
@@ -176,7 +178,7 @@ function CheckoutForm({ checkout }) {
                 />
               </FormField>
 
-              <FormField id="shipping-address" label="მისამართი" error={errors.shipping?.address?.message}>
+              <FormField id="shipping-address" label={t('checkout.address')} error={errors.shipping?.address?.message}>
                 <Input
                   id="shipping-address"
                   autoComplete="street-address"
@@ -188,20 +190,19 @@ function CheckoutForm({ checkout }) {
           </section>
 
           <section className="checkout-card" aria-labelledby="card-title">
-            <h2 id="card-title" className="checkout-card__title">ბარათით გადახდა</h2>
+            <h2 id="card-title" className="checkout-card__title">{t('checkout.payment')}</h2>
 
-            {/* Figma: Payment Failed */}
             {cardError && (
               <div className="payment-failed" role="alert">
                 <span className="payment-failed__icon" aria-hidden="true">✕</span>
                 <div>
-                  <p className="payment-failed__title">გადახდა ვერ მოხერხდა</p>
+                  <p className="payment-failed__title">{t('checkout.paymentFailed')}</p>
                   <p className="payment-failed__text">{cardError}</p>
                 </div>
               </div>
             )}
 
-            <FormField id="card-number" label="ბარათის ნომერი" error={errors.card?.number?.message}>
+            <FormField id="card-number" label={t('checkout.cardNumber')} error={errors.card?.number?.message}>
               <Input
                 id="card-number"
                 inputMode="numeric"
@@ -214,7 +215,7 @@ function CheckoutForm({ checkout }) {
               />
             </FormField>
 
-            <FormField id="card-holder" label="ბარათის მფლობელი" error={errors.card?.holder?.message}>
+            <FormField id="card-holder" label={t('checkout.cardHolder')} error={errors.card?.holder?.message}>
               <Input
                 id="card-holder"
                 autoComplete="cc-name"
@@ -225,7 +226,7 @@ function CheckoutForm({ checkout }) {
             </FormField>
 
             <div className="checkout-card__grid">
-              <FormField id="card-expiry" label="ვადა (MM/YY)" error={errors.card?.expiry?.message}>
+              <FormField id="card-expiry" label={t('checkout.cardExpiry')} error={errors.card?.expiry?.message}>
                 <Input
                   id="card-expiry"
                   inputMode="numeric"
@@ -241,7 +242,7 @@ function CheckoutForm({ checkout }) {
                 />
               </FormField>
 
-              <FormField id="card-cvc" label="CVC" error={errors.card?.cvc?.message}>
+              <FormField id="card-cvc" label={t('checkout.cardCvc')} error={errors.card?.cvc?.message}>
                 <Input
                   id="card-cvc"
                   type="password"
@@ -256,8 +257,8 @@ function CheckoutForm({ checkout }) {
           </section>
         </fieldset>
 
-        <aside className="checkout-summary" aria-label="შეკვეთის შეჯამება">
-          <h2 className="checkout-summary__title">შეკვეთის შეჯამება</h2>
+        <aside className="checkout-summary" aria-label={t('checkout.summary')}>
+          <h2 className="checkout-summary__title">{t('checkout.summary')}</h2>
 
           <ul className="checkout-summary__items">
             {items.map((item) => (
@@ -274,23 +275,25 @@ function CheckoutForm({ checkout }) {
           </ul>
 
           <p className="checkout-summary__row">
-            <span>პროდუქტები</span>
+            <span>{t('checkout.products')}</span>
             <span>{formatPrice(subtotal)}</span>
           </p>
           <p className="checkout-summary__row">
-            <span>მიწოდება</span>
-            <span>{shippingFee === 0 ? 'უფასო' : formatPrice(shippingFee)}</span>
+            <span>{t('checkout.shippingFee')}</span>
+            <span>{shippingFee === 0 ? t('checkout.free') : formatPrice(shippingFee)}</span>
           </p>
           {untilFree > 0 && (
-            <p className="checkout-summary__hint">კიდევ {formatPrice(untilFree)} და მიწოდება უფასოა</p>
+                        <p className="checkout-summary__hint">
+              {t('checkout.untilFree', { amount: formatPrice(untilFree) })}
+            </p>
           )}
           <p className="checkout-summary__row checkout-summary__row--total">
-            <span>სულ</span>
+            <span>{t('checkout.total')}</span>
             <span>{formatPrice(total)}</span>
           </p>
 
           <Button type="submit" loading={isSubmitting}>
-            გადახდა
+            {t('checkout.pay')}
           </Button>
         </aside>
       </form>

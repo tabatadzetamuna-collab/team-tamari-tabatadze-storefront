@@ -1,13 +1,13 @@
 import { CATEGORY_SLUG, PAGE_SIZE } from '../../config'
 
 export const SORT_OPTIONS = [
-  { value: 'newest', label: 'ახალი' },
-  { value: 'oldest', label: 'ძველი' },
-  { value: 'price-asc', label: 'ფასი: ზრდადობით' },
-  { value: 'price-desc', label: 'ფასი: კლებადობით' },
-  { value: 'rating-desc', label: 'რეიტინგით' },
-  { value: 'popular', label: 'პოპულარული' },
-  { value: 'title-asc', label: 'სახელით (ა–ჰ)' },
+  { value: 'newest' },
+  { value: 'oldest' },
+  { value: 'price-asc' },
+  { value: 'price-desc' },
+  { value: 'rating-desc' },
+  { value: 'popular' },
+  { value: 'title-asc' },
 ]
 
 const BASE_KEYS = ['q', 'sort', 'page', 'minPrice', 'maxPrice']

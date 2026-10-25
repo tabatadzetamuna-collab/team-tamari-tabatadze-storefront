@@ -4,54 +4,54 @@ import { isValidCardNumber, isValidExpiry } from './card'
 const email = z
   .string()
   .trim()
-  .min(1, 'ელფოსტა სავალდებულოა')
-  .email('შეიყვანე სწორი ელფოსტა')
+  .min(1, 'validation.emailRequired')
+  .email('validation.emailInvalid')
 
 export const newPassword = z
   .string()
-  .min(8,'პაროლი უნდა შეიცავდეს მინიმუმ 8 სიმბოლოს')
-  .regex(/[A-Za-z]/, 'პაროლი უნდა შეიცავდეს მინიმუმ 1 ასოს')
-  .regex(/\d/, 'პაროლი უნდა შეიცავდეს მინიმუმ 1 ციფრს')
+  .min(8,'validation.passwordMin')
+  .regex(/[A-Za-z]/, 'validation.passwordLetter')
+  .regex(/\d/, 'validation.passwordDigit')
 
 export const loginSchema = z.object({
   email,
-  password: z.string().min(1, 'პაროლი სავალდებულოა'),
+  password: z.string().min(1, 'validation.passwordRequired'),
 })
 
 export const registerSchema = z
   .object({
-    name: z.string().trim().min(2, 'სახელი მინიმუმ 2 სიმბოლო'),
+    name: z.string().trim().min(2, 'validation.nameMin'),
     email,
     password: newPassword,
-    confirmPassword: z.string().min(1, 'გაიმეორე პაროლი'),
+    confirmPassword: z.string().min(1, 'validation.passwordRepeat'),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'პაროლები არ ემთხვევა',
+    message: 'validation.passwordsMismatch',
     path: ['confirmPassword'],
   })
 
 export const forgotSchema = z.object({ email })
 
 export const codeSchema = z.object({
-  code: z.string().trim().regex(/^\d{6}$/, 'კოდი უნდა შედგებოდეს 6 ციფრისგან'),
+  code: z.string().trim().regex(/^\d{6}$/, 'validation.codeFormat'),
 })
 
 export const newPasswordSchema = z
   .object({
     password: newPassword,
-    confirmPassword: z.string().min(1, 'გაიმეორე პაროლი'),
+    confirmPassword: z.string().min(1, 'validation.passwordRepeat'),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'პაროლები არ ემთხვევა',
+    message: 'validation.passwordsMismatch',
     path: ['confirmPassword'],
   })
 export const profileSchema = z
   .object({
-    name: z.string().trim().min(2, 'სახელი უნდა შეიცავდეს მინიმუმ 2 სიმბოლოს'),
-    email: z.string().trim().min(1, 'შეიყვანე ელფოსტა').email('ელფოსტა არასწორია'),
+    name: z.string().trim().min(2, 	'validation.nameMin'),
+    email: z.string().trim().min(1, 'validation.emailRequired').email('validation.emailInvalid'),
     newPassword: z.string(),
     confirmNewPassword: z.string(),
-    currentPassword: z.string().min(1, 'შეიყვანე მიმდინარე პაროლი'),
+    currentPassword: z.string().min(1, 'validation.currentPasswordRequired'),
   })
   .superRefine((values, ctx) => {
     if (!values.newPassword) return
@@ -69,37 +69,37 @@ export const profileSchema = z
       ctx.addIssue({
         code: 'custom',
         path: ['confirmNewPassword'],
-        message: 'პაროლები არ ემთხვევა',
+        message: 'validation.passwordsMismatch',
       })
     }
   })
 export const addressSchema = z.object({
-  label: z.string().trim().max(30, 'მაქსიმუმ 30 სიმბოლო'),
-  fullName: z.string().trim().min(2, 'მინიმუმ 2 სიმბოლო'),
+  label: z.string().trim().max(30, 'validation.max30'),
+  fullName: z.string().trim().min(2, 'validation.min2'),
   phone: z
     .string()
     .trim()
-    .min(9, 'ტელეფონი: 9–20 სიმბოლო')
-    .max(20, 'ტელეფონი: 9–20 სიმბოლო'),
-  city: z.string().trim().min(2, 'მინიმუმ 2 სიმბოლო'),
-  address: z.string().trim().min(5, 'მინიმუმ 5 სიმბოლო'),
+    .min(9, 'validation.phoneLength')
+    .max(20, 'validation.phoneLength'),
+  city: z.string().trim().min(2, 'validation.min2'),
+  address: z.string().trim().min(5, 	'validation.min5'),
   isDefault: z.boolean(),
 })
 export const checkoutSchema = z.object({
   shipping: z.object({
-    fullName: z.string().trim().min(2, 'მინიმუმ 2 სიმბოლო'),
+    fullName: z.string().trim().min(2, 'validation.min2'),
     phone: z
       .string()
       .trim()
-      .min(9, 'ტელეფონი: 9–20 სიმბოლო')
-      .max(20, 'ტელეფონი: 9–20 სიმბოლო'),
-    city: z.string().trim().min(1, 'შეიყვანე ქალაქი'),
-    address: z.string().trim().min(5, 'მინიმუმ 5 სიმბოლო'),
+      .min(9, 'validation.phoneLength')
+      .max(20, 'validation.phoneLength'),
+    city: z.string().trim().min(1, 'validation.cityRequired'),
+    address: z.string().trim().min(5, 	'validation.min5'),
   }),
   card: z.object({
-    number: z.string().refine(isValidCardNumber, 'ბარათის ნომერი არასწორია'),
-    holder: z.string().trim().min(2, 'მინიმუმ 2 სიმბოლო'),
-    expiry: z.string().refine(isValidExpiry, 'ვადა არასწორია ან გასულია'),
-    cvc: z.string().regex(/^\d{3,4}$/, '3–4 ციფრი'),
+    number: z.string().refine(isValidCardNumber, 'validation.cardNumberInvalid'),
+    holder: z.string().trim().min(2, 'validation.min2'),
+    expiry: z.string().refine(isValidExpiry, 'validation.expiryInvalid'),
+    cvc: z.string().regex(/^\d{3,4}$/, 'validation.cvcFormat'),
   }),
 })

@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import { formatPrice } from '../../shared/lib/formatPrice'
 import { TrashIcon } from '../../shared/ui/icons/icons'
 import { CART_MAX_QTY } from '../../config'
+import { useTranslation } from 'react-i18next'
 import './cart.css'
 
 export default function CartLine({ item, pending, error, onChangeQty, onRemove }) {
+  const { t } = useTranslation()
   const { qty, lineTotal, product } = item
   const max = Math.min(product.stock, CART_MAX_QTY)
   const overStock = qty > product.stock
@@ -21,10 +23,10 @@ export default function CartLine({ item, pending, error, onChangeQty, onRemove }
 
         {overStock ? (
           <p className="cart-line__warning" role="alert">
-            მარაგში მხოლოდ {product.stock} ცალია
+            {t('cart.errors.onlyLeft', { count: product.stock })}
           </p>
         ) : (
-          <p className="cart-line__stock">მარაგშია</p>
+          <p className="cart-line__stock">{t('product.inStock')}</p>
         )}
         {error && (
           <p className="cart-line__warning" role="alert">
@@ -33,11 +35,11 @@ export default function CartLine({ item, pending, error, onChangeQty, onRemove }
         )}
 
         <div className="cart-line__controls">
-          <div className="stepper" role="group" aria-label={`რაოდენობა: ${product.title}`}>
+          <div className="stepper" role="group" aria-label={t('cart.quantityFor', { title: product.title })}>
             <button
               type="button"
               className="stepper__button"
-              aria-label="რაოდენობის შემცირება"
+              aria-label={t('cart.decrease')}
               disabled={pending || qty <= 1}
               onClick={() => onChangeQty(qty - 1)}
             >
@@ -49,7 +51,7 @@ export default function CartLine({ item, pending, error, onChangeQty, onRemove }
             <button
               type="button"
               className="stepper__button"
-              aria-label="რაოდენობის გაზრდა"
+              aria-label={t('cart.increase')}
               disabled={pending || qty >= max}
               onClick={() => onChangeQty(qty + 1)}
             >
@@ -60,7 +62,7 @@ export default function CartLine({ item, pending, error, onChangeQty, onRemove }
           <button
             type="button"
             className="cart-line__remove"
-            aria-label={`წაშლა: ${product.title}`}
+            aria-label={t('cart.remove', { title: product.title })}
             disabled={pending}
             onClick={onRemove}
           >
@@ -70,7 +72,7 @@ export default function CartLine({ item, pending, error, onChangeQty, onRemove }
       </div>
 
       <div className="cart-line__total">
-        <span className="cart-line__total-label">ჯამი ({qty} ცალი)</span>
+        <span className="cart-line__total-label">{t('cart.lineTotal', { count: qty })}</span>
         <span className="cart-line__total-value">{formatPrice(lineTotal)}</span>
       </div>
     </li>

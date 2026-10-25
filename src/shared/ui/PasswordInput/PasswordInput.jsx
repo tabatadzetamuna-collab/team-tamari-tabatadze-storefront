@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import Input from '../Input/Input'
 import { EyeIcon, EyeOffIcon } from '../icons/icons'
+import { useTranslation } from 'react-i18next'
 import './PasswordInput.css'
 
 export default function PasswordInput({ ref, ...props }) {
+  const { t } = useTranslation()
   const [visible, setVisible] = useState(false)
 
   return (
@@ -14,7 +16,7 @@ export default function PasswordInput({ ref, ...props }) {
         type="button" 
         className="password-input__toggle"
         onClick={() => setVisible((v) => !v)}
-        aria-label={visible ? 'პაროლის დამალვა' : 'პაროლის ჩვენება'}
+        aria-label={visible ? t('auth.hidePassword') : t('auth.showPassword')}
         aria-pressed={visible}
       >
         {visible ? <EyeIcon /> : <EyeOffIcon />}

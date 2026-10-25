@@ -5,9 +5,11 @@ import { useCartMutations } from './useCart'
 import { cartErrorText } from './cartErrors'
 import Button from '../../shared/ui/Button/Button'
 import { CART_MAX_QTY } from '../../config'
+import { useTranslation } from 'react-i18next'
 import './cart.css'
 
 export default function AddToCartButton({ product }) {
+  const { t } = useTranslation()
   const { status } = useSession()
   const navigate = useNavigate()
   const location = useLocation()
@@ -28,7 +30,7 @@ export default function AddToCartButton({ product }) {
     setMessage(null)
     try {
       await add.mutateAsync({ productId: product.id, qty })
-      setMessage({ type: 'success', text: 'დაემატა კალათაში' })
+      setMessage({ type: 'success', text: t('cart.added') })
     } catch (error) {
       if (error.status === 401) {
         goToLogin()
@@ -41,11 +43,11 @@ export default function AddToCartButton({ product }) {
   return (
     <div className="add-to-cart">
       <div className="add-to-cart__row">
-        <div className="stepper" role="group" aria-label="რაოდენობა">
+        <div className="stepper" role="group" aria-label={t('cart.quantity')}>
           <button
             type="button"
             className="stepper__button"
-            aria-label="რაოდენობის შემცირება"
+            aria-label={t('cart.decrease')}
             disabled={disabled || qty <= 1}
             onClick={() => setQty((q) => q - 1)}
           >
@@ -57,7 +59,7 @@ export default function AddToCartButton({ product }) {
           <button
             type="button"
             className="stepper__button"
-            aria-label="რაოდენობის გაზრდა"
+            aria-label={t('cart.increase')}
             disabled={disabled || qty >= max}
             onClick={() => setQty((q) => q + 1)}
           >
@@ -66,7 +68,7 @@ export default function AddToCartButton({ product }) {
         </div>
 
         <Button onClick={handleClick} loading={add.isPending} disabled={disabled || status === 'checking'}>
-          {disabled ? 'ამოწურულია' : 'კალათაში დამატება'}
+          {disabled ? t('product.outOfStock') : t('cart.add')}
         </Button>
       </div>
 
@@ -78,7 +80,7 @@ export default function AddToCartButton({ product }) {
         {message?.type === 'success' && (
           <>
             {' '}
-            <Link to="/cart">კალათის ნახვა</Link>
+            <Link to="/cart">{t('cart.view')}</Link>
           </>
         )}
       </p>

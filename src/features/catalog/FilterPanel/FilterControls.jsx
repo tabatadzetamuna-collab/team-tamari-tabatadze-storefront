@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const SWATCH = {
   natural: '#d9c3a5',
@@ -42,8 +43,9 @@ export function CheckboxFilter({ filter, selected, onChange }) {
 }
 
 export function RadioFilter({ filter, selected, onChange }) {
+  const { t } = useTranslation()
   const current = selected[0] ?? ''
-  const options = [{ value: '', label: 'ყველა' }, ...filter.options]
+  const options = [{ value: '', label: t('catalog.filters.all') }, ...filter.options]
 
   return (
     <fieldset className="filter-group">
@@ -94,10 +96,11 @@ export function ColorFilter({ filter, selected, onChange }) {
 }
 
 export function RangeFilter({ filter, minValue, maxValue, onChange }) {
+  const { t } = useTranslation()
   const [draft, setDraft] = useState(null)
   const timer = useRef(null)
 
-    const lowest = filter.min ?? 0
+  const lowest = filter.min ?? 0
   const highest = filter.max
 
   const current = draft ?? {
@@ -145,13 +148,13 @@ export function RangeFilter({ filter, minValue, maxValue, onChange }) {
 
       <div className="range-inputs">
         <label className="range-inputs__field">
-          <span className="visually-hidden">მინიმალური ფასი</span>
+          <span className="visually-hidden">{t('catalog.filters.minPrice')}</span>
           <span aria-hidden="true">{filter.unit}</span>
           <input
             type="number"
             min={lowest}
             max={highest}
-            placeholder={`${lowest}-დან`}
+            placeholder={t('catalog.filters.from', { value: lowest })}
             value={current.min}
             onChange={(e) => type({ min: e.target.value })}
             onBlur={() => commit(draft)}
@@ -160,13 +163,13 @@ export function RangeFilter({ filter, minValue, maxValue, onChange }) {
         </label>
 
         <label className="range-inputs__field">
-          <span className="visually-hidden">მაქსიმალური ფასი</span>
+          <span className="visually-hidden">{t('catalog.filters.maxPrice')}</span>
           <span aria-hidden="true">{filter.unit}</span>
           <input
             type="number"
             min={lowest}
             max={highest}
-            placeholder={`${highest}-მდე`}
+            placeholder={t('catalog.filters.to', { value: highest })}
             value={current.max}
             onChange={(e) => type({ max: e.target.value })}
             onBlur={() => commit(draft)}
@@ -183,7 +186,7 @@ export function RangeFilter({ filter, minValue, maxValue, onChange }) {
         <input
           type="range"
           className="dual-range__input"
-          aria-label="მინიმალური ფასი"
+          aria-label={t('catalog.filters.minPrice')}
           min={lowest}
           max={highest}
           step="10"
@@ -193,7 +196,7 @@ export function RangeFilter({ filter, minValue, maxValue, onChange }) {
         <input
           type="range"
           className="dual-range__input"
-          aria-label="მაქსიმალური ფასი"
+          aria-label={t('catalog.filters.maxPrice')}
           min={lowest}
           max={highest}
           step="10"

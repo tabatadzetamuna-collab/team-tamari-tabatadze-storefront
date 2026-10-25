@@ -12,9 +12,11 @@ import Alert from '../../shared/ui/Alert/Alert'
 import { MailIcon, LockIcon, ArrowRightIcon } from '../../shared/ui/icons/icons'
 import { loginSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
+import { useTranslation } from 'react-i18next'
 import './LoginPage.css'
 
 export default function LoginPage() {
+  const { t } = useTranslation()
   const { signIn, expiredNotice } = useSession()
   const navigate = useNavigate()
   const location = useLocation()
@@ -40,7 +42,7 @@ export default function LoginPage() {
       navigate(from ? `${from.pathname}${from.search}` : '/', { replace: true })
     } catch (error) {
       if (error.code === 'INVALID_CREDENTIALS') {
-        setFormError('არასწორი ელფოსტა ან პაროლი')
+        setFormError(t('auth.login.invalidCredentials'))
         return
       }
       if (mapFieldErrors(error, setError, ['email', 'password'])) return
@@ -49,31 +51,31 @@ export default function LoginPage() {
   }
 
   return (
-    <AuthLayout title="შესვლა">
+    <AuthLayout title={t('auth.login.title')}>
       {expiredNotice && !formError && (
-        <Alert variant="info">სესიას ვადა გაუვიდა. გთხოვ, თავიდან შედი.</Alert>
+        <Alert variant="info">{t('auth.login.sessionExpired')}</Alert>
       )}
       {formError && <Alert variant="error">{formError}</Alert>}
 
       <form className="login-form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <fieldset className="login-form__fieldset" disabled={isSubmitting}>
-          <FormField id="email" label="ელფოსტა" hideLabel error={errors.email?.message}>
+          <FormField id="email" label={t('auth.email')} hideLabel error={errors.email?.message}>
             <Input
               id="email"
               type="email"
               autoComplete="email"
-              placeholder="შეიყვანე ელფოსტა"
+              placeholder={t('auth.emailPlaceholder')}
               icon={<MailIcon />}
               error={!!errors.email}
               {...register('email')}
             />
           </FormField>
 
-          <FormField id="password" label="პაროლი" hideLabel error={errors.password?.message}>
+          <FormField id="password" label={t('auth.password')} hideLabel error={errors.password?.message}>
             <PasswordInput
               id="password"
               autoComplete="current-password"
-              placeholder="შეიყვანე პაროლი"
+              placeholder={t('auth.passwordPlaceholder')}
               icon={<LockIcon />}
               error={!!errors.password}
               {...register('password')}
@@ -81,17 +83,17 @@ export default function LoginPage() {
           </FormField>
 
           <Link to="/forgot-password" className="login-form__forgot">
-            დაგავიწყდა პაროლი?
+            {t('auth.login.forgot')}
           </Link>
 
           <Button type="submit" loading={isSubmitting}>
-            შესვლა <ArrowRightIcon />
+           {t('auth.login.submit')} <ArrowRightIcon />
           </Button>
         </fieldset>
       </form>
 
       <p className="login-form__footer">
-        არ გაქვს ანგარიში? <Link to="/register">შექმენი ანგარიში</Link>
+        {t('auth.login.noAccount')} <Link to="/register">{t('auth.login.createAccount')}</Link>
       </p>
     </AuthLayout>
   )
