@@ -11,9 +11,11 @@ import { useCategory, useProducts } from '../../features/catalog/useCatalogQueri
 import { CATEGORY_SLUG, PAGE_SIZE } from '../../config'
 import { useTranslation } from 'react-i18next'
 import './CatalogPage.css'
+import { useDocumentTitle } from '../../shared/hooks/useDocumentTitle'
 
 export default function CatalogPage() {
   const { t, i18n } = useTranslation()
+  useDocumentTitle(t('catalog.title'))
   const [searchParams, setSearchParams] = useSearchParams()
   const category = useCategory(CATEGORY_SLUG)
 

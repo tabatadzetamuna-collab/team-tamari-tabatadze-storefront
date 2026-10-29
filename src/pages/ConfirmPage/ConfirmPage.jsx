@@ -14,11 +14,13 @@ import { codeSchema } from '../../shared/lib/validation'
 import { describeError } from '../../shared/lib/mapServerErrors'
 import { Trans, useTranslation } from 'react-i18next'
 import './ConfirmPage.css'
+import { useDocumentTitle } from '../../shared/hooks/useDocumentTitle'
 
 const RESEND_SECONDS = 30
 
 export default function ConfirmPage() {
   const { t } = useTranslation()
+  useDocumentTitle(t('confirm.title'))
   const { orderId } = useParams()
   const navigate = useNavigate()
   const queryClient = useQueryClient()

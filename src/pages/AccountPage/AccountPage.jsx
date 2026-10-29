@@ -13,11 +13,13 @@ import { EditIcon } from '../../shared/ui/icons/icons'
 import { profileSchema } from '../../shared/lib/validation'
 import { mapFieldErrors, describeError } from '../../shared/lib/mapServerErrors'
 import './AccountPage.css'
+import { useDocumentTitle } from '../../shared/hooks/useDocumentTitle'
 
 const NOT_CHANGES = ['currentPassword', 'confirmNewPassword']
 
 export default function AccountPage() {
   const { t } = useTranslation()
+  useDocumentTitle(t('profile.title'))
   const { user, updateUser } = useSession()
   const [showPassword, setShowPassword] = useState(false)
   const [formError, setFormError] = useState(null)

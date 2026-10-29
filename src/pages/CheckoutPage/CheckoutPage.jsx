@@ -15,6 +15,7 @@ import { formatCardNumber, formatExpiry } from '../../shared/lib/card'
 import { formatPrice } from '../../shared/lib/formatPrice'
 import { useTranslation } from 'react-i18next'
 import './CheckoutPage.css'
+import { useDocumentTitle } from '../../shared/hooks/useDocumentTitle'
 
 const SERVER_FIELDS = [
   'shipping.fullName', 'shipping.phone', 'shipping.city', 'shipping.address',
@@ -23,6 +24,7 @@ const SERVER_FIELDS = [
 
 export default function CheckoutPage() {
   const { t } = useTranslation()
+  useDocumentTitle(t('checkout.title'))
   const { data, isPending, isError, refetch } = useCheckout()
 
   if (isPending) {
