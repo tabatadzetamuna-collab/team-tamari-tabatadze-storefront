@@ -8,6 +8,7 @@ import { loadIntlPolyfills } from './i18n/polyfills'
 import './styles/tokens.css'
 import './styles/global.css'
 import App from './App'
+import { productQuery } from './features/catalog/useCatalogQueries'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,6 +16,10 @@ const queryClient = new QueryClient({
   },
 })
 
+const productMatch = window.location.pathname.match(/^\/product\/([^/]+)/)
+if (productMatch) {
+  queryClient.prefetchQuery(productQuery(decodeURIComponent(productMatch[1])))
+}
 loadIntlPolyfills().then(() => {
   createRoot(document.getElementById('root')).render(
     <StrictMode>
