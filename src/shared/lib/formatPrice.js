@@ -15,9 +15,16 @@ export function formatPrice(value, currency = 'GEL') {
   }).format(value)
 }
 
+const KA_MONTHS = [
+  'იანვარი', 'თებერვალი', 'მარტი', 'აპრილი', 'მაისი', 'ივნისი',
+  'ივლისი', 'აგვისტო', 'სექტემბერი', 'ოქტომბერი', 'ნოემბერი', 'დეკემბერი',
+]
+
 export function formatDate(value) {
-  return new Intl.DateTimeFormat(currentLocale(), {
-    dateStyle: 'long',
-    timeStyle: 'short',
-  }).format(new Date(value))
+  const date = new Date(value)
+  if (i18n.language !== 'ka') {
+    return new Intl.DateTimeFormat('en-US', { dateStyle: 'long', timeStyle: 'short' }).format(date)
+  }
+  const time = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+  return `${date.getDate()} ${KA_MONTHS[date.getMonth()]}, ${date.getFullYear()}, ${time}`
 }
