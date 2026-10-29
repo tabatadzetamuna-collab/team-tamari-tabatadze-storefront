@@ -3,8 +3,7 @@ import { formatPrice } from '../../lib/formatPrice'
 import { useTranslation } from 'react-i18next'
 import './ProductCard.css'
 
-export default function ProductCard({ product }) {
-  const { t } = useTranslation()
+export default function ProductCard({ product, eager = false }) {  const { t } = useTranslation()
   const { slug, title, brand, image, price, oldPrice, discountPercent, rating, reviewsCount, inStock } =
     product
 
@@ -12,7 +11,13 @@ export default function ProductCard({ product }) {
     <article className="product-card">
       <Link to={`/product/${slug}`} className="product-card__link">
         <div className="product-card__media">
-          <img src={image} alt={title} loading="lazy" className="product-card__image" />
+          <img
+            src={image}
+            alt={title}
+            loading={eager ? 'eager' : 'lazy'}
+            fetchPriority={eager ? 'high' : undefined}
+            className="product-card__image"
+          />
           {discountPercent && <span className="product-card__badge">−{discountPercent}%</span>}
         </div>
 

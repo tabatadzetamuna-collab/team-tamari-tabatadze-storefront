@@ -37,7 +37,9 @@ export default function SessionProvider({ children }) {
   const clearUserData = useCallback(() => {
     queryClient.removeQueries({ queryKey: ['cart'] })
     queryClient.removeQueries({ queryKey: ['addresses'] })
-  }, [queryClient])
+    queryClient.removeQueries({ queryKey: ['checkout'] })
+    queryClient.removeQueries({ queryKey: ['order'] })
+  },[queryClient])
 
   useEffect(() => {
     return onSessionExpired(() => {

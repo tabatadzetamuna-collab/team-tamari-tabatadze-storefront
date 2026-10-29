@@ -81,9 +81,9 @@ export default function CatalogPage() {
           className={`catalog-page__grid ${products.isPlaceholderData ? 'catalog-page__grid--stale' : ''}`}
           aria-busy={products.isPlaceholderData}
         >
-          {data.items.map((product) => (
+        {data.items.map((product, index) => (
             <li key={product.id}>
-              <ProductCard product={product} />
+              <ProductCard product={product} eager={index < 4} />
             </li>
           ))}
         </ul>
