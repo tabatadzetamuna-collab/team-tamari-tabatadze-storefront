@@ -17,7 +17,7 @@ export default function TopBar() {
     <header className="top-bar">
       <div className="top-bar__left">
         <Link to="/" className="top-bar__logo" aria-label={t('nav.homePage')}>
-          <img src="/images/logo.svg" alt="" className="top-bar__logo-img" />
+          <img src="/images/logo.svg" alt="" width="75" height="56" className="top-bar__logo-img" />
         </Link>
 
         <nav aria-label={t('nav.mainMenu')}>

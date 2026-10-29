@@ -47,7 +47,7 @@
   --container-width: 1200px;
   --shadow-card: 0 2px 8px rgb(0 0 0 / 0.08);
 
-  --auth-bg-image: url('/images/auth-bg.png');
+  --auth-bg-image: url('/images/auth-bg.webp');
   --auth-card-width: 560px;
   --auth-card-min-height: 640px;
   --auth-card-blur: 12px;
