@@ -36,18 +36,20 @@ export default function CatalogPage() {
     setSearchParams(sort ? { sort } : {})
   }
 
+  function renderSkeleton(className = 'catalog-page__grid') {
+    return (
+      <ul className={className} aria-busy="true">
+        {Array.from({ length: PAGE_SIZE }, (_, i) => (
+          <li key={i}>
+            <ProductCardSkeleton />
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
   function renderResults() {
-    if (products.isPending) {
-      return (
-        <ul className="catalog-page__grid" aria-busy="true">
-          {Array.from({ length: PAGE_SIZE }, (_, i) => (
-            <li key={i}>
-              <ProductCardSkeleton />
-            </li>
-          ))}
-        </ul>
-      )
-    }
+    if (products.isPending) return renderSkeleton()
 
     if (products.isError) {
       return (
@@ -101,6 +103,9 @@ export default function CatalogPage() {
         {(i18n.language === 'en' ? category.data?.nameEn : category.data?.name) ?? t('catalog.title')}
       </h1>
 
+      {category.isPending ? (
+        renderSkeleton('catalog-page__grid catalog-page__grid--page')
+        ) : (
       <div className="catalog-page__layout">
         {category.isError && (
           <p role="alert" className="catalog-page__filters-error">
@@ -117,6 +122,7 @@ export default function CatalogPage() {
           {renderResults()}
         </div>
       </div>
+      )}
     </section>
   )
 }
