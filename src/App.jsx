@@ -4,11 +4,11 @@ import RequireSession from './session/RequireSession'
 import ShopLayout from './layouts/ShopLayout/ShopLayout'
 import CatalogPage from './pages/CatalogPage/CatalogPage'
 import ScreenLoader from './shared/ui/ScreenLoader/ScreenLoader'
+import ProductPage from './pages/ProductPage/ProductPage'
 
 const LoginPage = lazy(() => import('./pages/LoginPage/LoginPage'))
 const RegisterPage = lazy(() => import('./pages/RegisterPage/RegisterPage'))
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage/ForgotPasswordPage'))
-const ProductPage = lazy(() => import('./pages/ProductPage/ProductPage'))
 const ProfileLayout = lazy(() => import('./features/profile/ProfileLayout/ProfileLayout'))
 const AccountPage = lazy(() => import('./pages/AccountPage/AccountPage'))
 const AddressesPage = lazy(() => import('./pages/AddressesPage/AddressesPage'))
