@@ -8,9 +8,11 @@ import Button from '../../shared/ui/Button/Button'
 import { formatPrice } from '../../shared/lib/formatPrice'
 import { useTranslation } from 'react-i18next'
 import './CartPage.css'
+import { useDocumentTitle } from '../../shared/hooks/useDocumentTitle'
 
 export default function CartPage() {
   const { t } = useTranslation()
+  useDocumentTitle(t('cart.title'))
   const navigate = useNavigate()
   const { data: cart, isPending, isError, refetch } = useCart()
   const { update, remove } = useCartMutations()

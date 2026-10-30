@@ -9,9 +9,11 @@ import EmptyState from '../../shared/ui/EmptyState/EmptyState'
 import { describeError } from '../../shared/lib/mapServerErrors'
 import { MAX_ADDRESSES } from '../../config'
 import './AddressesPage.css'
+import { useDocumentTitle } from '../../shared/hooks/useDocumentTitle'
 
 export default function AddressesPage() {
   const { t } = useTranslation()
+  useDocumentTitle(t('addresses.title'))
   const { data, isPending, isError, refetch } = useAddresses()
   const { create, update, remove } = useAddressMutations()
   const [editing, setEditing] = useState(null)

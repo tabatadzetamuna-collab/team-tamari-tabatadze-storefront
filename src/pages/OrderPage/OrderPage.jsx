@@ -6,9 +6,11 @@ import EmptyState from '../../shared/ui/EmptyState/EmptyState'
 import { formatDate, formatPrice } from '../../shared/lib/formatPrice'
 import { useTranslation } from 'react-i18next'
 import './OrderPage.css'
+import { useDocumentTitle } from '../../shared/hooks/useDocumentTitle'
 
 export default function OrderPage() {
   const { t } = useTranslation()
+  useDocumentTitle(t('order.breadcrumb'))
   const { id } = useParams()
   const { user } = useSession()
   const { data, isPending, isError, error, refetch } = useQuery({

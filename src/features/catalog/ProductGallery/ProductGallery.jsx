@@ -13,7 +13,8 @@ export default function ProductGallery({ images, title }) {
         src={images[active]}
         alt={t('product.imageAlt', { title, index: active + 1, total })}
         className="product-gallery__main"
-      />
+          fetchPriority="high"
+        />
 
       {total > 1 && (
         <ul className="product-gallery__thumbs">

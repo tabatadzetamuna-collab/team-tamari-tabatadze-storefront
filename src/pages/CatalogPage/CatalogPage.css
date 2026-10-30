@@ -66,3 +66,6 @@
   text-decoration: underline;
   cursor: pointer;
 }
+.catalog-page__grid--page {
+  margin-top: var(--space-24);
+}

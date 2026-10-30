@@ -18,9 +18,14 @@ export function useProducts(params, { enabled = true } = {}) {
   })
 }
 
-export function useProduct(slug) {
-  return useQuery({
+export function productQuery(slug) {
+  return {
     queryKey: ['product', slug],
     queryFn: ({ signal }) => catalogService.getProduct(slug, signal),
-  })
+    staleTime: 5 * 60 * 1000,
+  }
+}
+
+export function useProduct(slug) {
+  return useQuery(productQuery(slug))
 }

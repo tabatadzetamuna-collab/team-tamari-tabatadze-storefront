@@ -1,7 +1,10 @@
 import LanguageSwitcher from '../../shared/ui/LanguageSwitcher/LanguageSwitcher'
+import { useDocumentTitle } from '../../shared/hooks/useDocumentTitle'
 import './AuthLayout.css'
 
 export default function AuthLayout({ title, subtitle, children }) {
+  useDocumentTitle(title)
+
   return (
     <main className="auth-layout">
       <div className="auth-layout__lang">

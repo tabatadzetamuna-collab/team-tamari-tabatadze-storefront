@@ -11,9 +11,11 @@ import { useCategory, useProducts } from '../../features/catalog/useCatalogQueri
 import { CATEGORY_SLUG, PAGE_SIZE } from '../../config'
 import { useTranslation } from 'react-i18next'
 import './CatalogPage.css'
+import { useDocumentTitle } from '../../shared/hooks/useDocumentTitle'
 
 export default function CatalogPage() {
   const { t, i18n } = useTranslation()
+  useDocumentTitle(t('catalog.title'))
   const [searchParams, setSearchParams] = useSearchParams()
   const category = useCategory(CATEGORY_SLUG)
 
@@ -36,18 +38,20 @@ export default function CatalogPage() {
     setSearchParams(sort ? { sort } : {})
   }
 
+  function renderSkeleton(className = 'catalog-page__grid') {
+    return (
+      <ul className={className} aria-busy="true">
+        {Array.from({ length: PAGE_SIZE }, (_, i) => (
+          <li key={i}>
+            <ProductCardSkeleton />
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
   function renderResults() {
-    if (products.isPending) {
-      return (
-        <ul className="catalog-page__grid" aria-busy="true">
-          {Array.from({ length: PAGE_SIZE }, (_, i) => (
-            <li key={i}>
-              <ProductCardSkeleton />
-            </li>
-          ))}
-        </ul>
-      )
-    }
+    if (products.isPending) return renderSkeleton()
 
     if (products.isError) {
       return (
@@ -79,9 +83,9 @@ export default function CatalogPage() {
           className={`catalog-page__grid ${products.isPlaceholderData ? 'catalog-page__grid--stale' : ''}`}
           aria-busy={products.isPlaceholderData}
         >
-          {data.items.map((product) => (
+        {data.items.map((product, index) => (
             <li key={product.id}>
-              <ProductCard product={product} />
+              <ProductCard product={product} eager={index < 2} />
             </li>
           ))}
         </ul>
@@ -101,6 +105,9 @@ export default function CatalogPage() {
         {(i18n.language === 'en' ? category.data?.nameEn : category.data?.name) ?? t('catalog.title')}
       </h1>
 
+      {category.isPending ? (
+        renderSkeleton('catalog-page__grid catalog-page__grid--page')
+        ) : (
       <div className="catalog-page__layout">
         {category.isError && (
           <p role="alert" className="catalog-page__filters-error">
@@ -117,6 +124,7 @@ export default function CatalogPage() {
           {renderResults()}
         </div>
       </div>
+      )}
     </section>
   )
 }
